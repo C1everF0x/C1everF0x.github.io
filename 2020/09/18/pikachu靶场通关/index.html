@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pikachu靶场通关 | C1everF0x's Blog</title><meta name="description" content="[TOC]  写在前面 最近要转专业面试了，老师说可能会问些关于安全方面的问题，比如常见漏洞的原理、利用和解决方案，刚好协会的 hxd 给我推荐了 Pikachu 这个靶场，进去看了是非常适合我的，漏洞类型比较全，分块练习，而且每个漏洞都有介绍成因和一些简单的解决方案，非常满意 为了方便复习，把每个模块的概述都搞进博客里 😃   搭建靶场  去官网把靶场下下来。官网链接 把pikachu文件夹放"><meta name="keywords" content="靶场通关"><meta name="author" content="C1everF0x"><meta name="copyright" content="C1everF0x"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://c1everf0x/2020/09/18/pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Pikachu靶场通关"><meta property="og:url" content="http://c1everf0x/2020/09/18/pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/"><meta property="og:site_name" content="C1everF0x's Blog"><meta property="og:description" content="[TOC]  写在前面 最近要转专业面试了，老师说可能会问些关于安全方面的问题，比如常见漏洞的原理、利用和解决方案，刚好协会的 hxd 给我推荐了 Pikachu 这个靶场，进去看了是非常适合我的，漏洞类型比较全，分块练习，而且每个漏洞都有介绍成因和一些简单的解决方案，非常满意 为了方便复习，把每个模块的概述都搞进博客里 😃   搭建靶场  去官网把靶场下下来。官网链接 把pikachu文件夹放"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-09-18T12:30:21.000Z"><meta property="article:modified_time" content="2020-09-19T17:16:06.401Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.0.2',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-09-20 01:16:06'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.0.2"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://s1.ax1x.com/2020/09/16/wgaCZR.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">6</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA"><span class="toc-number">1.</span> <span class="toc-text"> 搭建靶场</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#burt-force%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.</span> <span class="toc-text"> Burt Force(暴力破解漏洞)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E8%A1%A8%E5%8D%95%E7%9A%84%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="toc-number">2.2.</span> <span class="toc-text"> 基于表单的暴力破解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87on-server"><span class="toc-number">2.3.</span> <span class="toc-text"> 验证码绕过（on server）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87on-client"><span class="toc-number">2.4.</span> <span class="toc-text"> 验证码绕过（on client）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#token%E9%98%B2%E7%88%86%E7%A0%B4"><span class="toc-number">2.5.</span> <span class="toc-text"> token防爆破？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xss%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.</span> <span class="toc-text"> XSS(跨站脚本漏洞)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-2"><span class="toc-number">3.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxssget"><span class="toc-number">3.2.</span> <span class="toc-text"> 反射型xss(get)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxsspost"><span class="toc-number">3.3.</span> <span class="toc-text"> 反射型xss(post)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%82%A8%E5%AD%98%E5%9E%8Bxss"><span class="toc-number">3.4.</span> <span class="toc-text"> 储存型xss</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dom%E5%9E%8Bxss"><span class="toc-number">3.5.</span> <span class="toc-text"> DOM型xss</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dom%E5%9E%8Bxss-x"><span class="toc-number">3.6.</span> <span class="toc-text"> DOM型xss-x</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xss%E4%B9%8B%E7%9B%B2%E6%89%93"><span class="toc-number">3.7.</span> <span class="toc-text"> xss之盲打</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xss%E4%B9%8B%E8%BF%87%E6%BB%A4"><span class="toc-number">3.8.</span> <span class="toc-text"> xss之过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xss%E4%B9%8Bhtmlspecialchars"><span class="toc-number">3.9.</span> <span class="toc-text"> xss之htmlspecialchars</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xss%E4%B9%8Bhref%E8%BE%93%E5%87%BA"><span class="toc-number">3.10.</span> <span class="toc-text"> xss之href输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xss%E4%B9%8Bjs%E8%BE%93%E5%87%BA"><span class="toc-number">3.11.</span> <span class="toc-text"> xss之js输出</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#csrf%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0"><span class="toc-number">4.</span> <span class="toc-text"> CSRF(跨站请求伪造)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-3"><span class="toc-number">4.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#csrfget"><span class="toc-number">4.2.</span> <span class="toc-text"> CSRF(get)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#csrfpost"><span class="toc-number">4.3.</span> <span class="toc-text"> CSRF(post)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#csrf-token"><span class="toc-number">4.4.</span> <span class="toc-text"> CSRF Token</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sql-injectsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E"><span class="toc-number">5.</span> <span class="toc-text"> SQL-Inject(SQL注入漏洞)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-4"><span class="toc-number">5.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E6%B3%A8%E5%85%A5post"><span class="toc-number">5.2.</span> <span class="toc-text"> 数字型注入(post)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5get"><span class="toc-number">5.3.</span> <span class="toc-text"> 字符型注入(get)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">5.4.</span> <span class="toc-text"> 搜索型注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xx%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">5.5.</span> <span class="toc-text"> xx型注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#insertupdate%E6%B3%A8%E5%85%A5"><span class="toc-number">5.6.</span> <span class="toc-text"> &quot;insert&#x2F;update&quot;注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#delete%E6%B3%A8%E5%85%A5"><span class="toc-number">5.7.</span> <span class="toc-text"> &quot;delete&quot;注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-header%E6%B3%A8%E5%85%A5"><span class="toc-number">5.8.</span> <span class="toc-text"> &quot;http header&quot;注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8base-on-boolian"><span class="toc-number">5.9.</span> <span class="toc-text"> 盲注(base on boolian)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8base-on-time"><span class="toc-number">5.10.</span> <span class="toc-text"> 盲注(base on time)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-number">5.11.</span> <span class="toc-text"> 宽字节注入</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rce%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-number">6.</span> <span class="toc-text"> RCE(远程命令&#x2F;代码执行)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-5"><span class="toc-number">6.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exec-ping"><span class="toc-number">6.2.</span> <span class="toc-text"> exec “ping”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exec-eval"><span class="toc-number">6.3.</span> <span class="toc-text"> exec “eval”</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#files-inclusion%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">7.</span> <span class="toc-text"> Files Inclusion(文件包含漏洞)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-6"><span class="toc-number">7.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file-inclusionlocal"><span class="toc-number">7.2.</span> <span class="toc-text"> File inclusion(local)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file-inclusionremote"><span class="toc-number">7.3.</span> <span class="toc-text"> File inclusion(remote)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#unsafe-file-downloads%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="toc-number">8.</span> <span class="toc-text"> Unsafe file downloads(不安全的文件下载)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-7"><span class="toc-number">8.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unsafe-filedownload"><span class="toc-number">8.2.</span> <span class="toc-text"> Unsafe Filedownload</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#unsafe-file-uploads%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">9.</span> <span class="toc-text"> Unsafe file uploads(不安全的文件上传)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-8"><span class="toc-number">9.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#client-check"><span class="toc-number">9.2.</span> <span class="toc-text"> client check</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mime-type"><span class="toc-number">9.3.</span> <span class="toc-text"> MIME type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getimagesize"><span class="toc-number">9.4.</span> <span class="toc-text"> getimagesize</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#over-permisson%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E"><span class="toc-number">10.</span> <span class="toc-text"> Over Permisson(越权漏洞)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-9"><span class="toc-number">10.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83"><span class="toc-number">10.2.</span> <span class="toc-text"> 水平越权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83"><span class="toc-number">10.3.</span> <span class="toc-text"> 垂直越权</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-number">11.</span> <span class="toc-text"> …&#x2F;…&#x2F;…&#x2F;(目录遍历)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-10"><span class="toc-number">11.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-2"><span class="toc-number">11.2.</span> <span class="toc-text"> 目录遍历</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#i-can-see-your-abc%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-number">12.</span> <span class="toc-text"> I can see your ABC(敏感信息泄露)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-11"><span class="toc-number">12.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#icanseeyourabc"><span class="toc-number">12.2.</span> <span class="toc-text"> IcanseeyourABC</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="toc-number">13.</span> <span class="toc-text"> PHP反序列化漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-12"><span class="toc-number">13.1.</span> <span class="toc-text"> 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96serialize"><span class="toc-number">13.1.1.</span> <span class="toc-text"> 序列化serialize()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96unserialize"><span class="toc-number">13.1.2.</span> <span class="toc-text"> 反序列化unserialize()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E7%82%B9"><span class="toc-number">13.1.3.</span> <span class="toc-text"> 漏洞点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-2"><span class="toc-number">13.2.</span> <span class="toc-text"> php反序列化漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xxexml-external-entity-attack"><span class="toc-number">14.</span> <span class="toc-text"> XXE(XML External Entity attack)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-13"><span class="toc-number">14.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xxe%E6%BC%8F%E6%B4%9E"><span class="toc-number">14.2.</span> <span class="toc-text"> XXE漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84url%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">15.</span> <span class="toc-text"> 不安全的URL重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-14"><span class="toc-number">15.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84url%E8%B7%B3%E8%BD%AC"><span class="toc-number">15.2.</span> <span class="toc-text"> 不安全的URL跳转</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrfserver-side-request-forgery%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0"><span class="toc-number">16.</span> <span class="toc-text"> SSRF(Server-Side Request Forgery：服务器端请求伪造)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-15"><span class="toc-number">16.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssrfcurl"><span class="toc-number">16.2.</span> <span class="toc-text"> SSRF(curl)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssrffile_get_content"><span class="toc-number">16.3.</span> <span class="toc-text"> SSRF(file_get_content)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">17.</span> <span class="toc-text"> 总结</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">C1everF0x's Blog</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Pikachu靶场通关</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-09-18T12:30:21.000Z" title="发表于 2020-09-18 20:30:21">2020-09-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-09-19T17:16:06.401Z" title="更新于 2020-09-20 01:16:06">2020-09-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%B6%E5%9C%BA-%E9%9D%B6%E6%9C%BA/">靶场&amp;靶机</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>[TOC]</p>
+<blockquote>
+<p>写在前面<br />
+最近要转专业面试了，老师说可能会问些关于安全方面的问题，比如常见漏洞的原理、利用和解决方案，刚好协会的 hxd 给我推荐了 Pikachu 这个靶场，进去看了是非常适合我的，漏洞类型比较全，分块练习，而且每个漏洞都有介绍成因和一些简单的解决方案，非常满意<br />
+为了方便复习，把每个模块的概述都搞进博客里 😃</p>
+</blockquote>
+<h1 id="搭建靶场"><a class="markdownIt-Anchor" href="#搭建靶场"></a> 搭建靶场</h1>
+<ol>
+<li>去官网把靶场下下来。<a target="_blank" rel="noopener" href="https://github.com/zhuifengshaonianhanlu/pikachu">官网链接</a></li>
+<li>把<code>pikachu</code>文件夹放到<code>phpstudy</code>的<code>web服务器根目录</code>下</li>
+<li>进入<code>pikachu/inc/config.inc.php</code>更改数据库连接的账号密码</li>
+<li>访问<code>localhost/pikachu-master/index.php</code>，进行初始化安装</li>
+<li>开锤</li>
+</ol>
+<h1 id="burt-force暴力破解漏洞"><a class="markdownIt-Anchor" href="#burt-force暴力破解漏洞"></a> Burt Force(暴力破解漏洞)</h1>
+<h2 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h2>
+<p>“暴力破解”是一攻击具手段，在web攻击中，一般会使用这种手段对应用系统的认证信息进行获取。其过程就是使用大量的认证信息在认证接口进行尝试登录，直到得到正确的结果。为了提高效率，暴力破解一般会使用带有字典的工具来进行自动化操作。<br />
+理论上来说，大多数系统都是可以被暴力破解的，只要攻击者有足够强大的计算能力和时间，所以断定一个系统是否存在暴力破解漏洞，其条件也不是绝对的。我们说一个web应用系统存在暴力破解漏洞，一般是指该web应用系统没有采用或者采用了比较弱的认证安全策略，导致其被暴力破解的“可能性”变的比较高。这里的认证安全策略, 包括：</p>
+<ol>
+<li>是否要求用户设置复杂的密码；</li>
+<li>是否每次认证都使用安全的验证码（想想你买火车票时输的验证码～）或者手机otp；</li>
+<li>是否对尝试登录的行为进行判断和限制（如：连续5次错误登录，进行账号锁定或IP地址锁定等）；</li>
+<li>是否采用了双因素认证；</li>
+<li>等等。<br />
+千万不要小看暴力破解漏洞,往往这种简单粗暴的攻击方式带来的效果是超出预期的!<br />
+从来没有哪个时代的黑客像今天一样热衷于猜解密码  —奥斯特洛夫斯基</li>
+</ol>
+<h2 id="基于表单的暴力破解"><a class="markdownIt-Anchor" href="#基于表单的暴力破解"></a> 基于表单的暴力破解</h2>
+<p>就很简单的登陆界面，也没有验证码，直接丢burp爆破</p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5nm4S.png" alt="" /></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5nMcj.png" alt="" /></p>
+<blockquote>
+<p>右边的提示给了三组账号密码其实都是对的，但是还是老老实实打开<code>burp suite</code>爆破了一遍，熟悉一下</p>
+</blockquote>
+<h2 id="验证码绕过on-server"><a class="markdownIt-Anchor" href="#验证码绕过on-server"></a> 验证码绕过（on server）</h2>
+<p>出现一个验证码，老样子先抓包丢<code>Repeater</code>里面Go一下，发现账号密码输错的情况下，验证码不会更新，验证码只会在用户输错验证码的时候更新，那就老样子直接爆破</p>
+<h2 id="验证码绕过on-client"><a class="markdownIt-Anchor" href="#验证码绕过on-client"></a> 验证码绕过（on client）</h2>
+<p>随便输一下发现会有弹窗警告，提示里面写着看前端JS的源码，F12检查元素以后发现验证码部分代码可以删掉，删掉以后就可以爆破了</p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5n1un.png" alt="" /></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5n3Bq.png" alt="" /></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5nK3Q.png" alt="" /></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5nu9g.png" alt="" /></p>
+<h2 id="token防爆破"><a class="markdownIt-Anchor" href="#token防爆破"></a> token防爆破？</h2>
+<blockquote>
+<p>这题不会，看的wp</p>
+</blockquote>
+<p>抓包发现有 token，<code>Repeater</code>后发现返回包里有 token 的新值，即下一次登陆的 token 值在上一次登陆的返回包里，所以爆破只能单线程，<code>send intruder</code>，设置线程为1，Grep Extract处添加，选择返回包里的 token 值复制然后确认，重定向选择<code>总是</code>，有效载荷中选递归搜索，填入刚刚复制的新 token 值，加载字典开始爆破</p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5nQjs.png" alt="" /></p>
+<h1 id="xss跨站脚本漏洞"><a class="markdownIt-Anchor" href="#xss跨站脚本漏洞"></a> XSS(跨站脚本漏洞)</h1>
+<h2 id="概述-2"><a class="markdownIt-Anchor" href="#概述-2"></a> 概述</h2>
+<p>Cross-Site Scripting 简称为“CSS”，为避免与前端叠成样式表的缩写&quot;CSS&quot;冲突，故又称XSS。一般XSS可以分为如下几种常见类型：</p>
+<ol>
+<li>反射性XSS;</li>
+<li>存储型XSS;</li>
+<li>DOM型XSS;</li>
+</ol>
+<p>XSS漏洞一直被评估为web漏洞中危害较大的漏洞，在OWASP TOP10的排名中一直属于前三的江湖地位。<br />
+XSS是一种发生在前端浏览器端的漏洞，所以其危害的对象也是前端用户。<br />
+形成XSS漏洞的主要原因是程序对输入和输出没有做合适的处理，导致“精心构造”的字符输出在前端时被浏览器当作有效代码解析执行从而产生危害。<br />
+因此在XSS漏洞的防范上，一般会采用“对输入进行过滤”和“输出进行转义”的方式进行处理:<br />
+输入过滤：对输入进行过滤，不允许可能导致XSS攻击的字符输入;<br />
+输出转义：根据输出点的位置对输出到前端的内容进行适当转义;<br />
+你可以通过“Cross-Site Scripting”对应的测试栏目，来进一步的了解该漏洞。</p>
+<h2 id="反射型xssget"><a class="markdownIt-Anchor" href="#反射型xssget"></a> 反射型xss(get)</h2>
+<p>常规输入``<script>alert(/xss/)</script>`看看效果，发现输入的地方限制了输入的字符数量，点击提交后发现 xss 语句直接被拼接到了 url 语句里面，直接在 url 里面补全 xss 语句，达到目的</p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5c8SO.png" alt="" /></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5c1fK.png" alt="" /></p>
+<p>攻击成功</p>
+<h2 id="反射型xsspost"><a class="markdownIt-Anchor" href="#反射型xsspost"></a> 反射型xss(post)</h2>
+<p>直接打<code>&lt;script&gt;alert(/xss/)&lt;/script&gt;</code>就能成功</p>
+<h2 id="储存型xss"><a class="markdownIt-Anchor" href="#储存型xss"></a> 储存型xss</h2>
+<p>留言框，直接上xss代码就能弹出来</p>
+<blockquote>
+<p>百度了一下原理，因为存储型xss是保存在数据库里的，如果用户刷新，留言列表会从数据库提取出xss数据弹框，存的好会一直弹出来，越弹越多</p>
+</blockquote>
+<h2 id="dom型xss"><a class="markdownIt-Anchor" href="#dom型xss"></a> DOM型xss</h2>
+<blockquote>
+<p>这题不会，看的wp，html、JS和DOM的知识有点欠缺，留个大坑之后要补一下</p>
+</blockquote>
+<p>构造普通的 xss 语句提交上去出现 what do you see？一个链接，F12检查元素发现链接正是我们输入的 xss 语句</p>
+<p>闭合掉前面的引号即可，payload：<code>’ onclick=&quot;alert(/xss/)&quot;&gt;</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5cJ6e.png" alt="" /></p>
+<p>攻击成功</p>
+<h2 id="dom型xss-x"><a class="markdownIt-Anchor" href="#dom型xss-x"></a> DOM型xss-x</h2>
+<blockquote>
+<p>这题同上，也是看了wp，后面还要认真学</p>
+</blockquote>
+<p>payload：<code>’ onclick=&quot;alert(/xss/)&quot;&gt;</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5cGlD.png" alt="" /></p>
+<p>攻击成功</p>
+<h2 id="xss之盲打"><a class="markdownIt-Anchor" href="#xss之盲打"></a> xss之盲打</h2>
+<p>盲打就是在能插 xss 语句的地方都插上，乱打，但是提交上去没有弹窗的回显，点了提示后知道了后台的密码，所以 xss 语句上传到后台去了</p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5caTI.png" alt="" /></p>
+<h2 id="xss之过滤"><a class="markdownIt-Anchor" href="#xss之过滤"></a> xss之过滤</h2>
+<p>传普通的<code>&lt;script&gt;alert(/xss/)&lt;/script&gt;</code>上去发现有一句话，<code>别说这些'&gt;'的话,不要怕,就是干!</code>，所以应该是过滤掉了<code>&lt;&gt;</code>内的内容，百度 xss 绕过姿势以后构造payload：</p>
+<p><code>&lt;ScriPT&gt;alert(/xss/)&lt;/ScriPT&gt;</code>（可能后台只匹配小写的script）</p>
+<p><code>&lt;scri&lt;script&gt;pt&gt;alert(/xss/)&lt;/scr&lt;/script&gt;pt&gt;</code>（后台可能把<code>&lt;script&gt;</code>过滤掉，可能只去掉一次）</p>
+<p><code>&lt;scri&lt;!--test--&gt;pt&gt;alert(111)&lt;/sc&lt;!--test--&gt;ript&gt;</code>（加上注释后可能可以绕过后台过滤机制）</p>
+<blockquote>
+<p>这题只有大小写匹配能过</p>
+</blockquote>
+<h2 id="xss之htmlspecialchars"><a class="markdownIt-Anchor" href="#xss之htmlspecialchars"></a> xss之htmlspecialchars</h2>
+<p>首先百度 htmlspecialchars 是什么东西</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">htmlspecialchars()是PHP里面把预定义的字符转换为HTML实体的函数</span><br><span class="line">预定义的字符是</span><br><span class="line">&amp; 成为 &amp;amp</span><br><span class="line">&quot; 成为 &amp;quot</span><br><span class="line">&#39; 成为 &amp;#039</span><br><span class="line">&lt; 成为 &amp;lt</span><br><span class="line">&gt; 成为 &amp;gt</span><br><span class="line">可用引号类型</span><br><span class="line">ENT_COMPAT：默认，仅编码双引号</span><br><span class="line">ENT_QUOTES：编码双引号和单引号</span><br><span class="line">ENT_NOQUOTES：不编码任何引号</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输入<code>'&quot;&lt;&gt;</code>后得到的结果是<code>\'\&quot;&lt;&gt;</code>，在每个单引号和双引号前面加了<code>\</code>，不懂怎么做，以后回来填坑</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5cNmd.png" alt="" /></p>
+<h2 id="xss之href输出"><a class="markdownIt-Anchor" href="#xss之href输出"></a> xss之href输出</h2>
+<p>这里把<code>'</code> <code>&quot;</code> <code>&lt;</code> <code>&gt;</code>四个全部过滤掉了，不会做，百度说用<code>javascript:</code>伪协议绕过</p>
+<p>payload：<code>javascript:alert(/xss/)</code></p>
+<p>防御措施：</p>
+<ol>
+<li>输入的时候只允许 http 或 https 开头的协议，才允许输出</li>
+<li>其次再进行 htmlspecialchars 处理</li>
+</ol>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5cQFx.png" alt="" /></p>
+<p>攻击成功</p>
+<h2 id="xss之js输出"><a class="markdownIt-Anchor" href="#xss之js输出"></a> xss之js输出</h2>
+<p>标题想到看 js 的源码，源码意思就是 get 传参给 $ms，本来以为是 else 条件的 alert 能够构造 xss 语句，但是这行被注释掉了，后来百度知道是直接在参数赋值那里注入</p>
+<p>payload：<code>'&lt;/script&gt;&lt;script&gt;alert(/xss/)&lt;/script&gt;'</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5cYOH.png" alt="" /></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/w5cU0A.png" alt="" /></p>
+<p>攻击成功</p>
+<h1 id="csrf跨站请求伪造"><a class="markdownIt-Anchor" href="#csrf跨站请求伪造"></a> CSRF(跨站请求伪造)</h1>
+<h2 id="概述-3"><a class="markdownIt-Anchor" href="#概述-3"></a> 概述</h2>
+<p>Cross-site request forgery  简称为“CSRF”，在CSRF的攻击场景中攻击者会伪造一个请求（这个请求一般是一个链接），然后欺骗目标用户进行点击，用户一旦点击了这个请求，整个攻击就完成了。所以CSRF攻击也成为&quot;one click&quot;攻击。很多人搞不清楚CSRF的概念，甚至有时候会将其和XSS混淆,更有甚者会将其和越权问题混为一谈,这都是对原理没搞清楚导致的。<br />
+这里列举一个场景解释一下，希望能够帮助你理解。<br />
+<strong>场景需求：</strong><br />
+小黑想要修改大白在购物网站tianxiewww.xx.com上填写的会员地址。<br />
+<strong>先看下大白是如何修改自己的密码的：</strong><br />
+登录—修改会员信息，提交请求—修改成功。<br />
+所以小黑想要修改大白的信息，他需要拥有：1，登录权限 2，修改个人信息的请求。<br />
+但是大白又不会把自己xxx网站的账号密码告诉小黑，那小黑怎么办？<br />
+于是他自己跑到www.xx.com上注册了一个自己的账号，然后修改了一下自己的个人信息（比如：E-mail地址），他发现修改的请求是：<a target="_blank" rel="noopener" href="http://www.xxx.com/edit.php?email=xiaohei@88.com&amp;Change=Change">http://www.xxx.com/edit.php?email=xiaohei@88.com&amp;Change=Change</a><br />
+于是，他实施了这样一个操作：把这个链接伪装一下，在小白登录xxx网站后，欺骗他进行点击，小白点击这个链接后，个人信息就被修改了,小黑就完成了攻击目的。<br />
+<strong>为啥小黑的操作能够实现呢。有如下几个关键点：</strong></p>
+<ol>
+<li>www.xxx.com这个网站在用户修改个人的信息时没有过多的校验，导致这个请求容易被伪造;<br />
+—因此，我们判断一个网站是否存在CSRF漏洞，其实就是判断其对关键信息（比如密码等敏感信息）的操作(增删改)是否容易被伪造。</li>
+<li>小白点击了小黑发给的链接，并且这个时候小白刚好登录在购物网上;<br />
+—如果小白安全意识高，不点击不明链接，则攻击不会成功，又或者即使小白点击了链接，但小白此时并没有登录购物网站，也不会成功。<br />
+—因此，要成功实施一次CSRF攻击，需要“天时，地利，人和”的条件。<br />
+当然，如果小黑事先在xxx网的首页如果发现了一个XSS漏洞，则小黑可能会这样做：欺骗小白访问埋伏了XSS脚本（盗取cookie的脚本）的页面，小白中招，小黑拿到小白的cookie，然后小黑顺利登录到小白的后台，小黑自己修改小白的相关信息。<br />
+—所以跟上面比一下，就可以看出CSRF与XSS的区别：CSRF是借用户的权限完成攻击，攻击者并没有拿到用户的权限，而XSS是直接盗取到了用户的权限，然后实施破坏。因此，网站如果要防止CSRF攻击，则需要对敏感信息的操作实施对应的安全措施，防止这些操作出现被伪造的情况，从而导致CSRF。比如：<br />
+–对敏感信息的操作增加安全的token；<br />
+–对敏感信息的操作增加安全的验证码；<br />
+–对敏感信息的操作实施安全的逻辑流程，比如修改密码时，需要先校验旧密码等。</li>
+</ol>
+<h2 id="csrfget"><a class="markdownIt-Anchor" href="#csrfget"></a> CSRF(get)</h2>
+<p>登号，修改信息，抓包，老套路，发现修改的个人信息直接是拼接到 url 地址里</p>
+<p><code>/pikachu-master/vul/csrf/csrfget/csrf_get_edit.php?sex=boy&amp;phonenum=13677676754&amp;add=Oklahoma+City+Thunder&amp;email=kevin%40pikachu.com&amp;submit=submit</code>，于是可以自己修改 url 里面的内容，点击既可修改信息</p>
+<p>payload：<code>/pikachu-master/vul/csrf/csrfget/csrf_get_edit.php?sex=girl&amp;phonenum=123456789&amp;add=GUET&amp;email=hanhan%40pikachu.com&amp;submit=submit</code></p>
+<blockquote>
+<p>百度说实战的时候可以构造 url 发送给受害者，点击即发送了 get 请求修改了自己的个人信息</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/09/19/wI0nfg.png" alt="" /></p>
+<p>攻击成功</p>
+<h2 id="csrfpost"><a class="markdownIt-Anchor" href="#csrfpost"></a> CSRF(post)</h2>
+<p>登号，修改信息，抓包，老套路，名字提示是 post 所以修改的个人信息直接是在 post 表单里，但是不懂怎么利用，我要是能抓到人家用户自己修改自己的个人信息包我还攻击个锤子，百度说<mark>攻击者可以搭建一个站点，在站点上做一个表单，诱导受害者点击这个链接，当用户点击时，就会自动向存在CSRF的服务器提交POST请求修改个人信息</mark>，直接贴代码</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"> </span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.getElementById(<span class="string">&quot;postsubmit&quot;</span>).click();</span></span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span> <span class="attr">action</span>=<span class="string">&quot;http://www.tests.com/vul/csrf/csrfpost/csrf_post_edit.php&quot;</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;body&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;phonenum&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;phonenum&quot;</span> <span class="attr">value</span>=<span class="string">&quot;123456789&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;add&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;add&quot;</span> <span class="attr">value</span>=<span class="string">&quot;usa&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;email&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;email&quot;</span> <span class="attr">value</span>=<span class="string">&quot;vince@pikachu.com&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;postsubmit&quot;</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">name</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;submit&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>诱导受害者点击[<a target="_blank" rel="noopener" href="http://www.tests.com/vul/csrf/csrfpost/post.html">www.tests.com/vul/csrf/csrfpost/post.html</a>]就行了，可以结合 xss 来攻击</p>
+<p><img src="https://s1.ax1x.com/2020/09/19/wIBYDI.png" alt="" /></p>
+<h2 id="csrf-token"><a class="markdownIt-Anchor" href="#csrf-token"></a> CSRF Token</h2>
+<p>登号，修改信息，抓包，老套路，修改个人信息依旧是拼接在 url 里面，但是多加了一个 token 值且每次提交后在返回包里有新的 token 值，这里应该是一个漏洞点，但是我的水平打不了，知道有这回事，以后再回来填坑</p>
+<blockquote>
+<p>使用 token 感觉是一个很好的防御 CSRF 攻击的方法</p>
+</blockquote>
+<h1 id="sql-injectsql注入漏洞"><a class="markdownIt-Anchor" href="#sql-injectsql注入漏洞"></a> SQL-Inject(SQL注入漏洞)</h1>
+<h2 id="概述-4"><a class="markdownIt-Anchor" href="#概述-4"></a> 概述</h2>
+<p>哦,SQL注入漏洞，可怕的漏洞。<br />
+在owasp发布的top10排行榜里，注入漏洞一直是危害排名第一的漏洞，其中注入漏洞里面首当其冲的就是数据库注入漏洞。<br />
+<strong>一个严重的SQL注入漏洞，可能会直接导致一家公司破产！</strong><br />
+SQL注入漏洞主要形成的原因是在数据交互中，前端的数据传入到后台处理时，没有做严格的判断，导致其传入的“数据”拼接到SQL语句中后，被当作SQL语句的一部分执行。 从而导致数据库受损（被脱裤、被删除、甚至整个服务器权限沦陷）。<br />
+在构建代码时，一般会从如下几个方面的策略来防止SQL注入漏洞：</p>
+<ol>
+<li>对传进SQL语句里面的变量进行过滤，不允许危险字符传入；</li>
+<li>使用参数化（Parameterized Query 或 Parameterized Statement）；</li>
+<li>还有就是,目前有很多ORM框架会自动使用参数化解决注入问题,但其也提供了&quot;拼接&quot;的方式,所以使用时需要慎重!<br />
+SQL注入在网络上非常热门，也有很多技术专家写过非常详细的关于SQL注入漏洞的文章，这里就不在多写了。</li>
+</ol>
+<h2 id="数字型注入post"><a class="markdownIt-Anchor" href="#数字型注入post"></a> 数字型注入(post)</h2>
+<p>抓包，重放</p>
+<p><code>1 order by 3</code>得到<code>Unknown column '3' in 'order clause'</code>， <code>1 order by 2</code>正常回显<code>hello,vince &lt;br /&gt;your email is: vince@pikachu.cn</code>爆字段列数为2</p>
+<p><code>1 union select database()，user()</code>得到回显<code>hello,pikachu &lt;br /&gt;your email is: root@localhost</code>爆数据库名为<code>pikachu</code>和数据库用户为<code>root@localhost</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/wITob6.png" alt="" /></p>
+<p><code>1 union select table_name,2 from information_schema.tables where table_schema = database()</code>爆数据表</p>
+<p><img src="https://s1.ax1x.com/2020/09/19/wITIDx.png" alt="" /></p>
+<p><code>1 union select 1,column_name from information_schema.columns where table_name=&quot;users&quot;</code></p>
+<h2 id="字符型注入get"><a class="markdownIt-Anchor" href="#字符型注入get"></a> 字符型注入(get)</h2>
+<h2 id="搜索型注入"><a class="markdownIt-Anchor" href="#搜索型注入"></a> 搜索型注入</h2>
+<h2 id="xx型注入"><a class="markdownIt-Anchor" href="#xx型注入"></a> xx型注入</h2>
+<h2 id="insertupdate注入"><a class="markdownIt-Anchor" href="#insertupdate注入"></a> &quot;insert/update&quot;注入</h2>
+<h2 id="delete注入"><a class="markdownIt-Anchor" href="#delete注入"></a> &quot;delete&quot;注入</h2>
+<h2 id="http-header注入"><a class="markdownIt-Anchor" href="#http-header注入"></a> &quot;http header&quot;注入</h2>
+<h2 id="盲注base-on-boolian"><a class="markdownIt-Anchor" href="#盲注base-on-boolian"></a> 盲注(base on boolian)</h2>
+<h2 id="盲注base-on-time"><a class="markdownIt-Anchor" href="#盲注base-on-time"></a> 盲注(base on time)</h2>
+<h2 id="宽字节注入"><a class="markdownIt-Anchor" href="#宽字节注入"></a> 宽字节注入</h2>
+<h1 id="rce远程命令代码执行"><a class="markdownIt-Anchor" href="#rce远程命令代码执行"></a> RCE(远程命令/代码执行)</h1>
+<h2 id="概述-5"><a class="markdownIt-Anchor" href="#概述-5"></a> 概述</h2>
+<p>RCE漏洞，可以让攻击者直接向后台服务器远程注入操作系统命令或者代码，从而控制后台系统。<br />
+<strong>远程系统命令执行</strong><br />
+一般出现这种漏洞，是因为应用系统从设计上需要给用户提供指定的远程命令操作的接口<br />
+比如我们常见的路由器、防火墙、入侵检测等设备的web管理界面上<br />
+一般会给用户提供一个ping操作的web界面，用户从web界面输入目标IP，提交后，后台会对该IP地址进行一次ping测试，并返回测试结果。 而，如果，设计者在完成该功能时，没有做严格的安全控制，则可能会导致攻击者通过该接口提交“意想不到”的命令，从而让后台进行执行，从而控制整个后台服务器<br />
+现在很多的甲方企业都开始实施自动化运维,大量的系统操作会通过&quot;自动化运维平台&quot;进行操作。在这种平台上往往会出现远程系统命令执行的漏洞,不信的话现在就可以找你们运维部的系统测试一下,会有意想不到的&quot;收获&quot;<br />
+<strong>远程代码执行</strong><br />
+同样的道理,因为需求设计,后台有时候也会把用户的输入作为代码的一部分进行执行,也就造成了远程代码执行漏洞。不管是使用了代码执行的函数,还是使用了不安全的反序列化等等。<br />
+因此，如果需要给前端用户提供操作类的API接口，一定需要对接口输入的内容进行严格的判断，比如实施严格的白名单策略会是一个比较好的方法。</p>
+<h2 id="exec-ping"><a class="markdownIt-Anchor" href="#exec-ping"></a> exec “ping”</h2>
+<h2 id="exec-eval"><a class="markdownIt-Anchor" href="#exec-eval"></a> exec “eval”</h2>
+<h1 id="files-inclusion文件包含漏洞"><a class="markdownIt-Anchor" href="#files-inclusion文件包含漏洞"></a> Files Inclusion(文件包含漏洞)</h1>
+<h2 id="概述-6"><a class="markdownIt-Anchor" href="#概述-6"></a> 概述</h2>
+<p>文件包含，是一个功能。在各种开发语言中都提供了内置的文件包含函数，其可以使开发人员在一个代码文件中直接包含（引入）另外一个代码文件。比如 在PHP中，提供了：<br />
+include(),include_once()<br />
+require(),require_once()<br />
+这些文件包含函数，这些函数在代码设计中被经常使用到。<br />
+大多数情况下，文件包含函数中包含的代码文件是固定的，因此也不会出现安全问题。但是，有些时候，文件包含的代码文件被写成了一个变量，且这个变量可以由前端用户传进来，这种情况下，如果没有做足够的安全考虑，则可能会引发文件包含漏洞。攻击着会指定一个“意想不到”的文件让包含函数去执行，从而造成恶意操作。根据不同的配置环境，文件包含漏洞分为如下两种情况：<br />
+**1.本地文件包含漏洞：**仅能够对服务器本地的文件进行包含，由于服务器上的文件并不是攻击者所能够控制的，因此该情况下，攻击着更多的会包含一些固定的系统配置文件，从而读取系统敏感信息。很多时候本地文件包含漏洞会结合一些特殊的文件上传漏洞，从而形成更大的威力。<br />
+**2.远程文件包含漏洞：**能够通过url地址对远程的文件进行包含，这意味着攻击者可以传入任意的代码，这种情况没啥好说的，准备挂彩。<br />
+因此，在web应用系统的功能设计上尽量不要让前端用户直接传变量给包含函数，如果非要这么做，也一定要做严格的白名单策略进行过滤。<br />
+你可以通过“File Inclusion”对应的测试栏目，来进一步的了解该漏洞。</p>
+<h2 id="file-inclusionlocal"><a class="markdownIt-Anchor" href="#file-inclusionlocal"></a> File inclusion(local)</h2>
+<h2 id="file-inclusionremote"><a class="markdownIt-Anchor" href="#file-inclusionremote"></a> File inclusion(remote)</h2>
+<h1 id="unsafe-file-downloads不安全的文件下载"><a class="markdownIt-Anchor" href="#unsafe-file-downloads不安全的文件下载"></a> Unsafe file downloads(不安全的文件下载)</h1>
+<h2 id="概述-7"><a class="markdownIt-Anchor" href="#概述-7"></a> 概述</h2>
+<p>文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断的话，则可能会引发不安全的文件下载漏洞。<br />
+此时如果 攻击者提交的不是一个程序预期的的文件名，而是一个精心构造的路径(比如…/…/…/etc/passwd),则很有可能会直接将该指定的文件下载下来。从而导致后台敏感信息(密码文件、源代码等)被下载。<br />
+所以，在设计文件下载功能时，如果下载的目标文件是由前端传进来的，则一定要对传进来的文件进行安全考虑。切记：所有与前端交互的数据都是不安全的，不能掉以轻心！</p>
+<h2 id="unsafe-filedownload"><a class="markdownIt-Anchor" href="#unsafe-filedownload"></a> Unsafe Filedownload</h2>
+<h1 id="unsafe-file-uploads不安全的文件上传"><a class="markdownIt-Anchor" href="#unsafe-file-uploads不安全的文件上传"></a> Unsafe file uploads(不安全的文件上传)</h1>
+<h2 id="概述-8"><a class="markdownIt-Anchor" href="#概述-8"></a> 概述</h2>
+<p>文件上传功能在web应用系统很常见，比如很多网站注册的时候需要上传头像、上传附件等等。当用户点击上传按钮后，后台会对上传的文件进行判断 比如是否是指定的类型、后缀名、大小等等，然后将其按照设计的格式进行重命名后存储在指定的目录。如果说后台对上传的文件没有进行任何的安全判断或者判断条件不够严谨，则攻击着可能会上传一些恶意的文件，比如一句话木马，从而导致后台服务器被webshell。<br />
+所以，在设计文件上传功能时，一定要对传进来的文件进行严格的安全考虑。比如：<br />
+–验证文件类型、后缀名、大小;<br />
+–验证文件的上传方式;<br />
+–对文件进行一定复杂的重命名;<br />
+–不要暴露文件上传后的路径;<br />
+–等等</p>
+<h2 id="client-check"><a class="markdownIt-Anchor" href="#client-check"></a> client check</h2>
+<h2 id="mime-type"><a class="markdownIt-Anchor" href="#mime-type"></a> MIME type</h2>
+<h2 id="getimagesize"><a class="markdownIt-Anchor" href="#getimagesize"></a> getimagesize</h2>
+<h1 id="over-permisson越权漏洞"><a class="markdownIt-Anchor" href="#over-permisson越权漏洞"></a> Over Permisson(越权漏洞)</h1>
+<h2 id="概述-9"><a class="markdownIt-Anchor" href="#概述-9"></a> 概述</h2>
+<p>如果使用A用户的权限去操作B用户的数据，A的权限小于B的权限，如果能够成功操作，则称之为越权操作。越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。<br />
+一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后台需要对当前用户的权限进行校验，看其是否具备操作的权限，从而给出响应，而如果校验的规则过于简单则容易出现越权漏洞。<br />
+因此，在在权限管理中应该遵守：</p>
+<ol>
+<li>使用最小权限原则对用户进行赋权;</li>
+<li>使用合理（严格）的权限校验规则;</li>
+<li>使用后台登录态作为条件进行权限判断,别动不动就瞎用前端传进来的条件;</li>
+</ol>
+<h2 id="水平越权"><a class="markdownIt-Anchor" href="#水平越权"></a> 水平越权</h2>
+<h2 id="垂直越权"><a class="markdownIt-Anchor" href="#垂直越权"></a> 垂直越权</h2>
+<h1 id="目录遍历"><a class="markdownIt-Anchor" href="#目录遍历"></a> …/…/…/(目录遍历)</h1>
+<h2 id="概述-10"><a class="markdownIt-Anchor" href="#概述-10"></a> 概述</h2>
+<p>在web功能设计中,很多时候我们会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。 当用户发起一个前端的请求时，便会将请求的这个文件的值(比如文件名称)传递到后台，后台再执行其对应的文件。 在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过“…/”这样的手段让后台打开或者执行一些其他的文件。 从而导致后台服务器上其他目录的文件结果被遍历出来，形成目录遍历漏洞。<br />
+看到这里,你可能会觉得目录遍历漏洞和不安全的文件下载，甚至文件包含漏洞有差不多的意思，是的，目录遍历漏洞形成的最主要的原因跟这两者一样，都是在功能设计中将要操作的文件使用变量的 方式传递给了后台，而又没有进行严格的安全考虑而造成的，只是出现的位置所展现的现象不一样，因此，这里还是单独拿出来定义一下。<br />
+需要区分一下的是,如果你通过不带参数的url（比如：<a target="_blank" rel="noopener" href="http://xxxx/doc%EF%BC%89%E5%88%97%E5%87%BA%E4%BA%86doc%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E9%9D%A2%E6%89%80%E6%9C%89%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%8C%E6%88%91%E4%BB%AC%E6%88%90%E4%B8%BA%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E3%80%82%E8%80%8C%E5%B9%B6%E4%B8%8D%E5%BD%92%E4%B8%BA%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E%E3%80%82%EF%BC%88%E5%85%B3%E4%BA%8E%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E4%BD%A0%E4%BD%A0%E5%8F%AF%E4%BB%A5%E5%9C%A8">http://xxxx/doc）列出了doc文件夹里面所有的文件，这种情况，我们成为敏感信息泄露。而并不归为目录遍历漏洞。（关于敏感信息泄露你你可以在</a>&quot;i can see you ABC&quot;中了解更多）</p>
+<h2 id="目录遍历-2"><a class="markdownIt-Anchor" href="#目录遍历-2"></a> 目录遍历</h2>
+<h1 id="i-can-see-your-abc敏感信息泄露"><a class="markdownIt-Anchor" href="#i-can-see-your-abc敏感信息泄露"></a> I can see your ABC(敏感信息泄露)</h1>
+<h2 id="概述-11"><a class="markdownIt-Anchor" href="#概述-11"></a> 概述</h2>
+<p>由于后台人员的疏忽或者不当的设计，导致不应该被前端用户看到的数据被轻易的访问到。比如：<br />
+—通过访问url下的目录，可以直接列出目录下的文件列表;<br />
+—输入错误的url参数后报错信息里面包含操作系统、中间件、开发语言的版本或其他信息;<br />
+—前端的源码（html,css,js）里面包含了敏感信息，比如后台登录地址、内网接口信息、甚至账号密码等;<br />
+类似以上这些情况，我们成为敏感信息泄露。敏感信息泄露虽然一直被评为危害比较低的漏洞，但这些敏感信息往往给攻击着实施进一步的攻击提供很大的帮助,甚至“离谱”的敏感信息泄露也会直接造成严重的损失。因此,在web应用的开发上，除了要进行安全的代码编写，也需要注意对敏感信息的合理处理。</p>
+<h2 id="icanseeyourabc"><a class="markdownIt-Anchor" href="#icanseeyourabc"></a> IcanseeyourABC</h2>
+<h1 id="php反序列化漏洞"><a class="markdownIt-Anchor" href="#php反序列化漏洞"></a> PHP反序列化漏洞</h1>
+<h2 id="概述-12"><a class="markdownIt-Anchor" href="#概述-12"></a> 概述</h2>
+<p>在理解这个漏洞前,你需要先搞清楚php中serialize()，unserialize()这两个函数。</p>
+<h3 id="序列化serialize"><a class="markdownIt-Anchor" href="#序列化serialize"></a> 序列化serialize()</h3>
+<p>序列化说通俗点就是把一个对象变成可以传输的字符串,比如下面是一个对象:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">S</span></span>&#123;</span><br><span class="line">       <span class="keyword">public</span> $test=<span class="string">&quot;pikachu&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   $s=<span class="keyword">new</span> S(); <span class="comment">//创建一个对象</span></span><br><span class="line">   serialize($s); <span class="comment">//把这个对象进行序列化</span></span><br><span class="line">   序列化后得到的结果是这个样子的:O:<span class="number">1</span>:<span class="string">&quot;S&quot;</span>:<span class="number">1</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;test&quot;</span>;s:<span class="number">7</span>:<span class="string">&quot;pikachu&quot;</span>;&#125;</span><br><span class="line">       O:代表<span class="keyword">object</span></span><br><span class="line">       <span class="number">1</span>:代表对象名字长度为一个字符</span><br><span class="line">       S:对象的名称</span><br><span class="line">       <span class="number">1</span>:代表对象里面有一个变量</span><br><span class="line">       s:数据类型</span><br><span class="line">       <span class="number">4</span>:变量名称的长度</span><br><span class="line">       test:变量名称</span><br><span class="line">       s:数据类型</span><br><span class="line">       <span class="number">7</span>:变量值的长度</span><br><span class="line">       pikachu:变量值</span><br></pre></td></tr></table></figure>
+<h3 id="反序列化unserialize"><a class="markdownIt-Anchor" href="#反序列化unserialize"></a> 反序列化unserialize()</h3>
+<p>就是把被序列化的字符串还原为对象,然后在接下来的代码中继续使用。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$u=unserialize(<span class="string">&quot;O:1:&quot;</span>S<span class="string">&quot;:1:&#123;s:4:&quot;</span>test<span class="string">&quot;;s:7:&quot;</span>pikachu<span class="string">&quot;;&#125;&quot;</span>);</span><br><span class="line">    <span class="keyword">echo</span> $u-&gt;test; <span class="comment">//得到的结果为pikachu</span></span><br></pre></td></tr></table></figure>
+<h3 id="漏洞点"><a class="markdownIt-Anchor" href="#漏洞点"></a> 漏洞点</h3>
+<p>序列化和反序列化本身没有问题,但是如果反序列化的内容是用户可以控制的,且后台不正当的使用了PHP中的魔法函数,就会导致安全问题</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">常见的几个魔法函数:</span><br><span class="line">        __construct()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line">        __destruct()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line">        __toString()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line">        __sleep() 在对象在被序列化之前运行</span><br><span class="line"></span><br><span class="line">        __wakeup将在序列化之后立即被调用</span><br><span class="line"></span><br><span class="line">        漏洞举例:</span><br><span class="line"></span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">S</span></span>&#123;</span><br><span class="line">            <span class="keyword">var</span> $test = <span class="string">&quot;pikachu&quot;</span>;</span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;test;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        $s = $_GET[<span class="string">&#x27;test&#x27;</span>];</span><br><span class="line">        @$unser = unserialize($a);</span><br><span class="line"></span><br><span class="line">        payload:O:<span class="number">1</span>:<span class="string">&quot;S&quot;</span>:<span class="number">1</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;test&quot;</span>;s:<span class="number">29</span>:<span class="string">&quot;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;&quot;</span>;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="php反序列化漏洞-2"><a class="markdownIt-Anchor" href="#php反序列化漏洞-2"></a> php反序列化漏洞</h2>
+<h1 id="xxexml-external-entity-attack"><a class="markdownIt-Anchor" href="#xxexml-external-entity-attack"></a> XXE(XML External Entity attack)</h1>
+<h2 id="概述-13"><a class="markdownIt-Anchor" href="#概述-13"></a> 概述</h2>
+<p>XXE -“xml external entity injection”<br />
+既&quot;xml外部实体注入漏洞&quot;。<br />
+概括一下就是&quot;攻击者通过向服务器注入指定的xml实体内容,从而让服务器按照指定的配置进行执行,导致问题&quot;<br />
+也就是说服务端接收和解析了来自用户端的xml数据,而又没有做严格的安全控制,从而导致xml外部实体注入。<br />
+具体的关于xml实体的介绍,网络上有很多,自己动手先查一下。<br />
+现在很多语言里面对应的解析xml的函数默认是禁止解析外部实体内容的,从而也就直接避免了这个漏洞。<br />
+以PHP为例,在PHP里面解析xml用的是libxml,其在≥2.9.0的版本中,默认是禁止解析xml外部实体内容的。<br />
+本章提供的案例中,为了模拟漏洞,通过手动指定LIBXML_NOENT选项开启了xml外部实体解析。</p>
+<h2 id="xxe漏洞"><a class="markdownIt-Anchor" href="#xxe漏洞"></a> XXE漏洞</h2>
+<h1 id="不安全的url重定向"><a class="markdownIt-Anchor" href="#不安全的url重定向"></a> 不安全的URL重定向</h1>
+<h2 id="概述-14"><a class="markdownIt-Anchor" href="#概述-14"></a> 概述</h2>
+<p>不安全的url跳转问题可能发生在一切执行了url地址跳转的地方。<br />
+如果后端采用了前端传进来的(可能是用户传参,或者之前预埋在前端页面的url地址)参数作为了跳转的目的地,而又没有做判断的话就可能发生&quot;跳错对象&quot;的问题。<br />
+url跳转比较直接的危害是:<br />
+–&gt;钓鱼,既攻击者使用漏洞方的域名(比如一个比较出名的公司域名往往会让用户放心的点击)做掩盖,而最终跳转的确实钓鱼网站</p>
+<h2 id="不安全的url跳转"><a class="markdownIt-Anchor" href="#不安全的url跳转"></a> 不安全的URL跳转</h2>
+<h1 id="ssrfserver-side-request-forgery服务器端请求伪造"><a class="markdownIt-Anchor" href="#ssrfserver-side-request-forgery服务器端请求伪造"></a> SSRF(Server-Side Request Forgery：服务器端请求伪造)</h1>
+<h2 id="概述-15"><a class="markdownIt-Anchor" href="#概述-15"></a> 概述</h2>
+<p>其形成的原因大都是由于服务端<strong>提供了从其他服务器应用获取数据的功能</strong>,但又没有对目标地址做严格过滤与限制<br />
+导致攻击者可以传入任意的地址来让后端服务器对其发起请求,并返回对该目标地址请求的数据<br />
+数据流:攻击者-----&gt;服务器----&gt;目标地址<br />
+根据后台使用的函数的不同,对应的影响和利用方法又有不一样</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">PHP中下面函数的使用不当会导致SSRF:</span><br><span class="line">file_get_contents()</span><br><span class="line">fsockopen()</span><br><span class="line">curl_exec()</span><br></pre></td></tr></table></figure>
+<p>如果一定要通过后台服务器远程去对用户指定(“或者预埋在前端的请求”)的地址进行资源请求,<strong>则请做好目标地址的过滤</strong>。</p>
+<h2 id="ssrfcurl"><a class="markdownIt-Anchor" href="#ssrfcurl"></a> SSRF(curl)</h2>
+<h2 id="ssrffile_get_content"><a class="markdownIt-Anchor" href="#ssrffile_get_content"></a> SSRF(file_get_content)</h2>
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">C1everF0x</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://c1everf0x/2020/09/18/pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/">http://c1everf0x/2020/09/18/pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://C1everF0x" target="_blank">C1everF0x's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/">靶场通关</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/09/17/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Python学习笔记</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By C1everF0x</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">hhh, this is a CaiDan!</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/click_heart.js" async="async"></script></div></body></html>
