@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2020极客大挑战WriteUp(持续更新ing) | C1everF0x's Blog</title><meta name="description" content="写在前面 之前刷 BUU 的时候做了一些2019极客大挑战的题，感觉挺好的，适合练手复习考点 今年从协会扫地学长那得知又开赛了，得整一整 当我得知这是成都信息工程大学的招新赛时，这 CTF 氛围实名羡慕了。。。   Welcome 提示：In addition to the GET request method, there is another common request method… 进"><meta name="keywords" content="2020极客大挑战&amp;Writeup"><meta name="author" content="C1everF0x"><meta name="copyright" content="C1everF0x"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://c1everf0x/2020/10/17/2020%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98WriteUp-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0ing/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="2020极客大挑战WriteUp(持续更新ing)"><meta property="og:url" content="http://c1everf0x/2020/10/17/2020%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98WriteUp-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0ing/"><meta property="og:site_name" content="C1everF0x's Blog"><meta property="og:description" content="写在前面 之前刷 BUU 的时候做了一些2019极客大挑战的题，感觉挺好的，适合练手复习考点 今年从协会扫地学长那得知又开赛了，得整一整 当我得知这是成都信息工程大学的招新赛时，这 CTF 氛围实名羡慕了。。。   Welcome 提示：In addition to the GET request method, there is another common request method… 进"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-10-17T06:49:33.000Z"><meta property="article:modified_time" content="2020-10-17T09:46:21.982Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.0.2',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-17 17:46:21'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.0.2"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://s1.ax1x.com/2020/09/16/wgaCZR.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">12</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">9</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#welcome"><span class="toc-number">1.</span> <span class="toc-text"> Welcome</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8B%E5%8F%8B%E7%9A%84%E5%AD%A6%E5%A6%B9"><span class="toc-number">2.</span> <span class="toc-text"> 朋友的学妹</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezwww"><span class="toc-number">3.</span> <span class="toc-text"> EZwww</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezgit"><span class="toc-number">4.</span> <span class="toc-text"> EZgit</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">C1everF0x's Blog</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">2020极客大挑战WriteUp(持续更新ing)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-17T06:49:33.000Z" title="发表于 2020-10-17 14:49:33">2020-10-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-17T09:46:21.982Z" title="更新于 2020-10-17 17:46:21">2020-10-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF-WriteUp/">CTF-WriteUp</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>写在前面</p>
+<p>之前刷 BUU 的时候做了一些2019极客大挑战的题，感觉挺好的，适合练手复习考点</p>
+<p>今年从协会扫地学长那得知又开赛了，得整一整</p>
+<p>当我得知这是成都信息工程大学的招新赛时，这 CTF 氛围实名羡慕了。。。</p>
+</blockquote>
+<h1 id="welcome"><a class="markdownIt-Anchor" href="#welcome"></a> Welcome</h1>
+<p>提示：In addition to the GET request method, there is another common request method…</p>
+<p>进去以后状态码<code>405</code>，结合提示 burp 抓包改 POST 方法，发现有 PHP 代码</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017153239.png" alt="POST传参" /></p>
+<p>常规的 <mark>sha1数组绕过</mark>，传参<code>roam1[]=123&amp;roam2[]=abc</code>来到 phpinfo 页面，题目要在 phpinfo 界面收集信息，仔细观察发现敏感信息</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017153657.png" alt="f1444aagggg.php" /></p>
+<p>进入 f1444aagggg.php 在响应头处拿到 flag</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017153818.png" alt="flag" /></p>
+<h1 id="朋友的学妹"><a class="markdownIt-Anchor" href="#朋友的学妹"></a> 朋友的学妹</h1>
+<p>进去要我试一试查看源代码，妹子还挺好看的，但我是个无情的做题机器</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017154330.png" alt="朋友的学妹" /></p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017153956.png" alt="初见" /></p>
+<p>源代码里有 flag 的 base64 编码，解码以后得 flag：SYC{F1@_4s_h4Lpfullllll}</p>
+<h1 id="ezwww"><a class="markdownIt-Anchor" href="#ezwww"></a> EZwww</h1>
+<p>提示：备份是个“好🤺”习惯</p>
+<p>尝试<code>www.zip</code>，下载下来了备份，<code>flag!!!!.txt</code>照例是一个假的 flag ，审<code>index.php</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line"> &lt;head&gt;</span><br><span class="line">  &lt;title&gt;Lola<span class="string">&#x27;s website1.0&lt;/title&gt;</span></span><br><span class="line"><span class="string"> &lt;/head&gt;</span></span><br><span class="line"><span class="string"> &lt;body&gt;</span></span><br><span class="line"><span class="string"> &lt;?php echo &#x27;</span>&lt;h1&gt;welcome to my website&lt;/h1&gt;<span class="string">&#x27;; ?&gt;</span></span><br><span class="line"><span class="string"> &lt;?php echo &#x27;</span>&lt;p&gt;i will never forget to backup my website......&lt;/p&gt;<span class="string">&#x27;; ?&gt;</span></span><br><span class="line"><span class="string"> &lt;?php echo &#x27;</span>&lt;img src=<span class="string">&quot;img/lola.gif&quot;</span> alt=<span class="string">&quot;welcome~&quot;</span>/&gt;<span class="string">&#x27;; ?&gt;</span></span><br><span class="line"><span class="string"> &lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">&lt;?php</span></span><br><span class="line"><span class="string">$key1 = $_POST[&#x27;</span>a<span class="string">&#x27;];</span></span><br><span class="line"><span class="string">$key2 = base64_decode(&#x27;</span>c3ljbDB2ZXI=<span class="string">&#x27;);</span></span><br><span class="line"><span class="string">if($key1 === $key2)</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    //this is a true flag</span></span><br><span class="line"><span class="string">echo &#x27;</span>&lt;p&gt;SYC&#123;xxxxxxxxxxxxxxxxxx&#125;&lt;/p&gt;<span class="string">&#x27;;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>要求 POST 方法传参一个变量<code>a</code>要求等于<code>base64_decode('c3ljbDB2ZXI=')</code>，即<code>sycl0ver</code>，所以传个参就好</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017154831.png" alt="flag" /></p>
+<h1 id="ezgit"><a class="markdownIt-Anchor" href="#ezgit"></a> EZgit</h1>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017154933.png" alt="githack" /></p>
+<p><code>.git泄露</code>经典考点了，去github上下载工具<code>GitHack</code>，开锤</p>
+<blockquote>
+<p>GitHack 只能python2运行</p>
+</blockquote>
+<p>工具跑完打开<code>fl4g.php</code>显示 flag is toooo old!，所以需要用<code>git</code>拉回上一个版本</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017155336.png" alt="tooo old" /></p>
+<p>输入财富密码<code>git reset --hard 3796466675a1db323e42170def92bee71344a2ee</code>，再打开<code>fl4g.php</code>拿到 flag</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017155547.png" alt="flag" /></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">C1everF0x</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://c1everf0x/2020/10/17/2020%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98WriteUp-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0ing/">http://c1everf0x/2020/10/17/2020%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98WriteUp-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0ing/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://C1everF0x" target="_blank">C1everF0x's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/2020%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Writeup/">2020极客大挑战&amp;Writeup</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/10/18/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-%E4%BA%8C/"><img class="prev-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">每日一题(二)</div></div></a></div><div class="next-post pull-right"><a href="/2020/10/16/SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SQL注入总结</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By C1everF0x</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">hhh, this is a CaiDan!</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/click_heart.js" async="async"></script></div></body></html>
