@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2020西大线下赛流水账 | C1everF0x's Blog</title><meta name="description" content="写在前面 这是第一次打线下 AWD 的 CTF 比赛，但是感觉赛制不够正宗，居然是解题和打靶机两个模块分开来的，之前一直以为是把题目放到靶机上  这次比赛我的队伍没有取得很好的名次，我觉得原因还是在我，第一是硬实力不够强，第二是心态不够沉稳，第三是忽略了团队的作用 复现 Web 题  1、hash 右键查看源码发现 waf &lt;?php$flag&#x3D;&amp;#x27;flag&amp;#123;******"><meta name="keywords" content="CTF"><meta name="author" content="C1everF0x"><meta name="copyright" content="C1everF0x"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://c1everf0x/2020/10/27/2020%E8%A5%BF%E5%A4%A7%E7%BA%BF%E4%B8%8B%E8%B5%9B%E6%80%BB%E7%BB%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="2020西大线下赛流水账"><meta property="og:url" content="http://c1everf0x/2020/10/27/2020%E8%A5%BF%E5%A4%A7%E7%BA%BF%E4%B8%8B%E8%B5%9B%E6%80%BB%E7%BB%93/"><meta property="og:site_name" content="C1everF0x's Blog"><meta property="og:description" content="写在前面 这是第一次打线下 AWD 的 CTF 比赛，但是感觉赛制不够正宗，居然是解题和打靶机两个模块分开来的，之前一直以为是把题目放到靶机上  这次比赛我的队伍没有取得很好的名次，我觉得原因还是在我，第一是硬实力不够强，第二是心态不够沉稳，第三是忽略了团队的作用 复现 Web 题  1、hash 右键查看源码发现 waf &lt;?php$flag&#x3D;&amp;#x27;flag&amp;#123;******"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-10-27T11:48:18.000Z"><meta property="article:modified_time" content="2020-10-27T15:00:13.271Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.0.2',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-27 23:00:13'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.0.2"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://s1.ax1x.com/2020/09/16/wgaCZR.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-hash"><span class="toc-number">1.</span> <span class="toc-text"> 1、hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-dhd"><span class="toc-number">2.</span> <span class="toc-text"> 2、dHd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-inj"><span class="toc-number">3.</span> <span class="toc-text"> 3、inj</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E8%B4%A6"><span class="toc-number"></span> <span class="toc-text"> 流水账</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1023"><span class="toc-number">1.</span> <span class="toc-text"> 10.23</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1024"><span class="toc-number">2.</span> <span class="toc-text"> 10.24</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1025"><span class="toc-number">3.</span> <span class="toc-text"> 10.25</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">C1everF0x's Blog</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">2020西大线下赛流水账</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-27T11:48:18.000Z" title="发表于 2020-10-27 19:48:18">2020-10-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-27T15:00:13.271Z" title="更新于 2020-10-27 23:00:13">2020-10-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%AE%B0/">生活杂记</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>写在前面<br />
+这是第一次打线下 AWD 的 CTF 比赛，但是感觉赛制不够正宗，居然是解题和打靶机两个模块分开来的，之前一直以为是把题目放到靶机上</p>
+</blockquote>
+<p>这次比赛我的队伍没有取得很好的名次，我觉得原因还是在我，第一是硬实力不够强，第二是心态不够沉稳，第三是忽略了团队的作用</p>
+<p>复现 Web 题</p>
+<h2 id="1-hash"><a class="markdownIt-Anchor" href="#1-hash"></a> 1、hash</h2>
+<p>右键查看源码发现 waf</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">&#x27;flag&#123;*********************&#125;&#x27;</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>($_GET[<span class="string">&#x27;password&#x27;</span>]))&#123;</span><br><span class="line">    <span class="keyword">if</span> ($_GET[<span class="string">&#x27;username&#x27;</span>]==$_GET[<span class="string">&#x27;password&#x27;</span>])&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">&#x27;密码不能与账户相同&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(sha1($_GET[<span class="string">&#x27;username&#x27;</span>])==sha1($_GET[<span class="string">&#x27;password&#x27;</span>]))&#123;</span><br><span class="line">            <span class="keyword">if</span>(md5(implode(<span class="string">&#x27;&#x27;</span>,$_GET[<span class="string">&#x27;username&#x27;</span>]))===md5(implode(<span class="string">&#x27;&#x27;</span>,$_GET[<span class="string">&#x27;password&#x27;</span>])))&#123;</span><br><span class="line">                <span class="keyword">die</span>($flag);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span>(<span class="string">&#x27;账户与密码md5值不相等&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span>(<span class="string">&#x27;账户与密码sha1值不相等 :(&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很常规的题型了</p>
+<p>sha1函数用数组绕过，当传入的是数组时，sha1函数解析错误返回 False 完成 if 条件比较username[]=xxx,password[]=xxx</p>
+<p>md5 函数强比较是 md5 值碰撞绕过，如果是常规强比较可以用数组绕过，传进去两个数组，数组的值不相等，造成 md5 加密时报错产生 NULL=NULL 的情况，绕过比较，但是<strong>implode函数是把数组元素组合为字符串</strong>，不能用数组绕过</p>
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">username[]&#x3D;%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%00%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%55%5d%83%60%fb%5f%07%fe%a2</span><br><span class="line">&amp;</span><br><span class="line">password[]&#x3D;%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%02%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%d5%5d%83%60%fb%5f%07%fe%a2</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201024221100.png" alt="flag" /></p>
+<h2 id="2-dhd"><a class="markdownIt-Anchor" href="#2-dhd"></a> 2、dHd</h2>
+<blockquote>
+<p>这题就是让我比赛没有取得更好成绩的原因</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$file = @base64_decode(file_get_contents($_GET[<span class="string">&#x27;file&#x27;</span>],<span class="string">&#x27;r&#x27;</span>));</span><br><span class="line">$gogogo = @unserialize($file);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">flag</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> $file = <span class="string">&#x27;index.php&#x27;</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params">$file</span>)</span>&#123;</span><br><span class="line">           <span class="keyword">$this</span>-&gt;file = $file;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">           <span class="keyword">$this</span>-&gt;file = <span class="string">&#x27;index.php&#x27;</span>;</span><br><span class="line">        &#125;    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">           <span class="keyword">echo</span> file_get_contents(str_ireplace([<span class="string">&#x27;fl@g&#x27;</span>,<span class="string">&#x27;/&#x27;</span>,<span class="string">&#x27;\\&#x27;</span>],<span class="string">&#x27;&#x27;</span>,<span class="keyword">$this</span>-&gt;file));</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>常规得不能再常规的一道反序列化题，20 分钟审完代码</p>
+<blockquote>
+<p><code>file_get_contents()</code>：把整个文件读入一个字符串中，</p>
+</blockquote>
+<blockquote>
+<p><code>str_ireplace()</code>:替换字符串中的一些字符，例如：<code>str_ireplace(&quot;WORLD&quot;,&quot;Peter&quot;,&quot;Hello world!&quot;);</code>把字符串 “Hello world!” 中的字符 “WORLD”（不区分大小写）替换成 “Peter”：</p>
+</blockquote>
+<p>GET方式 传进去一个 $file ，<code>file_get_contents</code>函数把文件读取成字符串，所以 $file 应该是一个文件，结合题目和后面的过滤，猜测是<code>fl@g.php</code>，<code>base64_decode</code>解密，把字符串反序列化</p>
+<p>进入 class 类，反序列化的时候<code>__wakeup()</code>魔术方法会自动运行，会把 $file 的名字改为 <code>index.php</code>，所以这题第一个考点就是绕过<code>__wakeup()</code>函数，方法很简单，这个函数有它自己的漏洞，第二个考点在对象实例化后销毁的时候，会自动调用类里面的<code>__destruct</code>函数，过滤掉<code>fl@g</code>字段，绕过这个函数的方法也很简单，双写绕过，<code>flfl@g@g.php</code>，str_ireplace函数把<code>fl@g</code>替换成空后留下来的还是<code>fl@g.php</code></p>
+<p>最后需要用 <code>php://input</code>伪协议，因为<code>file_get_contents</code>函数需要传入的参数是一个文件，反序列化构造的 payload 是一串 base64 ，如果传 base64 进去不会被解析，所以需要用到伪协议，在 POST 表单里面输入 payload ，伪协议会将 payload 当成一个文件，就通过了<code>file_get_contents</code>函数的校验</p>
+<blockquote>
+<p><code>php://input</code>：简单说就是获取 POST 数据，此协议需要allow_url_include为on，可以访问请求的原始数据的只读流</p>
+</blockquote>
+<h2 id="3-inj"><a class="markdownIt-Anchor" href="#3-inj"></a> 3、inj</h2>
+<p>刚开始进来看到题目，信息还是挺多的</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201016234902.png" alt="初见" /></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;flag.txt</span><br><span class="line">flag in &#x2F;fllllllllllllag		</span><br><span class="line">file?filename&#x3D;&#x2F;flag.txt&amp;filehash&#x3D;949e1b3d04ef60ff02ffc6f6bb34fdae</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;welcome.txt</span><br><span class="line">render</span><br><span class="line">file?filename&#x3D;&#x2F;welcome.txt&amp;filehash&#x3D;f123ac29baec2ab4ba71527c69fb5e27</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;hints.txt</span><br><span class="line">md5(cookie_secret+md5(filename))</span><br><span class="line">file?filename&#x3D;&#x2F;hints.txt&amp;filehash&#x3D;25e57d65d8b56f0088974e199fafd121</span><br></pre></td></tr></table></figure>
+<p>依次点开发现得到以下内容，通过观察发现<code>file?filename=/文件名&amp;文件的md5值</code>，其中 hints.txt 里面提示<code>md5(cookie_secret+md5(filename))</code>，welcome.txt 里面提示一个<code>render</code>是渲染的意思，flag.txt 里面是通知一声 flag 在<code>fllllllllllllag</code>里面，这个题的题目里<code>tornado</code>是 Python 的一个模板</p>
+<p>当有文件名或文件md5值不匹配时，将会跳转到 Error 页面</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201016235931.png" alt="Error" /></p>
+<blockquote>
+<p>这题是SSTI服务器模板注入</p>
+</blockquote>
+<p>因此，通过<code>handler.application</code>即可访问整个tornado。简单而言通过<code>&#123;&#123;handler.application.settings&#125;&#125;</code>或者<code>&#123;&#123;handler.settings&#125;&#125;</code>就可获得<code>settings</code>中的**<code>cookie_secret</code>**</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201016234807.png" alt="cookie_secert" /></p>
+<p>找个 md5 加密网站搞一搞就出来了</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201017003214.png" alt="flag" /></p>
+<h1 id="流水账"><a class="markdownIt-Anchor" href="#流水账"></a> 流水账</h1>
+<h2 id="1023"><a class="markdownIt-Anchor" href="#1023"></a> 10.23</h2>
+<p>23号没啥好说的，在学校打车去火车站半天打不到，差点急死人，十二点的车，到南宁后坐地铁，然后走路到酒店以及天黑了，然后姚老师请大家吃了饭，真好</p>
+<p>吃完饭偷偷拿了比赛牌去找了在西大的高中同桌玩</p>
+<p><img src="https://gitee.com/C1everF0x/images/raw/master/20201027201147.png" alt="" /></p>
+<p>俩人逛了西大好大一圈，我发现桂电和西大都挺大的，但是就是感觉桂电小小气气的，后来和队友总结了一下，发现西大的建筑、楼，普遍高大宏伟有排面，桂电的楼吧，我姑且说是咱学校低调吧</p>
+<p><img src="https://s1.ax1x.com/2020/10/27/BlEp6A.jpg" alt="西大有排面的楼" /></p>
+<p>西大自产自销的牛奶特别好喝，就是感觉一瓶有点少，几口就闷没了，但是真的特别好喝</p>
+<p>好兄弟还带我去逛了他在的那个学院，参观的时候发生了好玩的事情，在《包装设计师必读手册》旁边有一杯喝完的益禾堂，这一版墙都是展示荣耀、奖状和出版作品的，我差点以为这个益禾堂的包装也是个荣誉作品，出自西大之手</p>
+<p><img src="https://s1.ax1x.com/2020/10/27/BlA6Lq.jpg" alt="注意细节" /></p>
+<p>逛的差不多了，跟好兄弟交代了一点事之后就回到酒店呼呼大睡了</p>
+<h2 id="1024"><a class="markdownIt-Anchor" href="#1024"></a> 10.24</h2>
+<p>比赛的日子，我这个学期第一次早上六点半起床，真不错，早起真不错</p>
+<p>大家收拾好集合了以后就跑去西大吃早点了，就普普通通吃了一碗桂林米粉，虽然味道不错但还是没有桂林的感觉，学长说是酸笋不够臭</p>
+<p>接下来就到了比赛的现场，荟萃楼7楼，这楼是真的漂亮，礼仪小姐姐估计是西大的礼仪队的，也很漂亮</p>
+<p><img src="https://s1.ax1x.com/2020/10/27/BlE2jA.jpg" alt="丢人现场" /></p>
+<p>说到比赛场地，我真的对比赛坐的那个椅子非常满意，虽然其貌不扬，但是真的特别特别舒服，后背靠的那个地方是可以调节的，做很久了腰和脖子都不会很累</p>
+<p><img src="https://s1.ax1x.com/2020/10/27/BlVUPS.jpg" alt="很舒服的椅子" /></p>
+<p>比赛内容分成了两个模块，一个是 ctf 常规解题，另一边是打靶机，但是每个队基本上都在做题，一个上午过去了，大家都说这靶机是虚空靶机，找都找不到在哪，只能吃吃彩蛋和线索的烂分，说到题，比赛居然没有 pwn 题，搞得 pwn 师傅十分不满意，差点当场退役，只能打打逆向玩一玩</p>
+<p>打到中午，西大给大家准备了盒饭，就很常规的食堂饭，还行，跟桂电的差不了多少，吃完饭就继续打比赛了</p>
+<p>打完比赛以后，姚老师带我们和以前毕业的学长一起吃了个饭，然后学长给我们说了好多好多话，虽然可能是喝多了，但是说的话无非绕不开<code>努力</code>、<code>带学弟</code>和<code>传承</code>三个关键字，信息安全发展至今毕竟还是小圈子，之所以有那么多内推的名额，最大的原因还是传承，每个学校都有信息安全的社团，社团内的一脉相传，不管是技术上还是精神上，都是一种传承，在良好的氛围下，还需要每个人都不断的努力，从早到晚，从周一到周日，从学期开始到学期结束，从大一到大四…所以以后得更加努力，努力提升自己</p>
+<p>吃完饭回到酒店洗了个澡，跟舍友去逛了逛周边的夜市散了散步，买了杯果茶就散步回到酒店继续呼呼大睡了</p>
+<h2 id="1025"><a class="markdownIt-Anchor" href="#1025"></a> 10.25</h2>
+<p>归家的日子，睡不惯酒店的被子，导致我因为踢被子早上五六点就醒了，再一觉醒来九点半，觉得来南宁没有吃个老友粉还是对不起这张车票的，然后一起去吃了个老友粉，味道还行，下次来找朋友推荐几家正宗的去试一试</p>
+<p><img src="https://s1.ax1x.com/2020/10/27/Blnaoq.jpg" alt="老友粉" /></p>
+<p>坐地铁去火车站，回桂电，洗衣服，睡一觉，起来干活(补作业)</p>
+<p>这天最倒霉的就是到了桂林北站，学长说搞个共享汽车开回去，结果共享汽车刚开出停车位没几步就没电打不起火了，然后又滴滴打车回到了学校，还比自己开车便宜</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">C1everF0x</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://c1everf0x/2020/10/27/2020%E8%A5%BF%E5%A4%A7%E7%BA%BF%E4%B8%8B%E8%B5%9B%E6%80%BB%E7%BB%93/">http://c1everf0x/2020/10/27/2020%E8%A5%BF%E5%A4%A7%E7%BA%BF%E4%B8%8B%E8%B5%9B%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://C1everF0x" target="_blank">C1everF0x's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/10/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-%E4%B8%89/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">每日一题(三)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/10/26/思维导图/" title="思维导图"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-26</div><div class="title">思维导图</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By C1everF0x</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">hhh, this is a CaiDan!</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/click_heart.js" async="async"></script></div></body></html>
