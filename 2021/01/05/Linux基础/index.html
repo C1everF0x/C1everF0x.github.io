@@ -1,0 +1,1123 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux基础 | C1everF0x's Blog</title><meta name="keywords" content="Linux"><meta name="author" content="C1everF0x"><meta name="copyright" content="C1everF0x"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="Linux 基础   Linux 系统   如何学习 Linux  多动手敲，边敲边学 打好基础   一本好的工具书(鸟哥私房菜)    Linux 内核版本  XX.YY.ZZ  XX 为 主版本号 YY 为 次版本号（奇数为开发版，偶数为稳定版） ZZ 为 补丁次数      Linux 磁盘分区表示   Linux里所有东西均表示为文件   &#x2F;dev&#x2F;hda5  dev 为 硬件所在目录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础">
+<meta property="og:url" content="http://c1everf0x/2021/01/05/Linux%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="C1everF0x&#39;s Blog">
+<meta property="og:description" content="Linux 基础   Linux 系统   如何学习 Linux  多动手敲，边敲边学 打好基础   一本好的工具书(鸟哥私房菜)    Linux 内核版本  XX.YY.ZZ  XX 为 主版本号 YY 为 次版本号（奇数为开发版，偶数为稳定版） ZZ 为 补丁次数      Linux 磁盘分区表示   Linux里所有东西均表示为文件   &#x2F;dev&#x2F;hda5  dev 为 硬件所在目录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/C1everF0x/images/raw/master/img/19.jpg">
+<meta property="article:published_time" content="2021-01-05T12:49:37.000Z">
+<meta property="article:modified_time" content="2021-01-07T15:56:24.813Z">
+<meta property="article:author" content="C1everF0x">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/C1everF0x/images/raw/master/img/19.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://c1everf0x/2021/01/05/Linux%E5%9F%BA%E7%A1%80/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-07 23:56:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="http://q1.qlogo.cn/g?b=qq&amp;nk=1160118161&amp;s=640" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/C1everF0x/images/raw/master/img/19.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">C1everF0x's Blog</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Linux基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-05T12:49:37.000Z" title="发表于 2021-01-05 20:49:37">2021-01-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-07T15:56:24.813Z" title="更新于 2021-01-07 23:56:24">2021-01-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="linux-基础"><a class="markdownIt-Anchor" href="#linux-基础"></a> Linux 基础</h1>
+<hr />
+<h2 id="linux-系统"><a class="markdownIt-Anchor" href="#linux-系统"></a> Linux 系统</h2>
+<ul>
+<li>
+<p>如何学习 Linux</p>
+<ul>
+<li>多动手敲，边敲边学</li>
+<li>打好基础</li>
+</ul>
+<ul>
+<li>一本好的工具书(鸟哥私房菜)</li>
+</ul>
+</li>
+<li>
+<p>Linux 内核版本</p>
+<ul>
+<li><code>XX.YY.ZZ</code>
+<ul>
+<li><strong><code>XX</code></strong> 为 主版本号</li>
+<li><strong><code>YY</code></strong> 为 次版本号（奇数为开发版，偶数为稳定版）</li>
+<li><strong><code>ZZ</code></strong> 为 补丁次数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Linux 磁盘分区表示</p>
+<ul>
+<li>
+<p>Linux里所有东西均表示为文件</p>
+</li>
+<li>
+<p><code>/dev/hda5</code></p>
+<ul>
+<li><strong><code>dev</code></strong> 为 硬件所在目录</li>
+<li><strong><code>hd</code></strong> 表示IDE设备</li>
+<li><strong><code>sd</code></strong> 表示SCSI设备</li>
+<li><strong><code>a</code></strong> 为硬盘顺序号，以字母a、b、c…表示</li>
+<li><strong><code>5</code></strong> 为分区顺序号，以数字1、2、3…表示（主分区从 1 开始计算，逻辑分区从 5 开始计算）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>默认使用的文件系统类型</p>
+<ul>
+<li><strong><code>EXT3</code>：</strong> 第三代扩展（Extended）文件系统</li>
+<li><strong><code>SWAP</code>：</strong> 交换文件系统</li>
+</ul>
+</li>
+</ul>
+<h2 id="linux-系统目录结构-常用命令"><a class="markdownIt-Anchor" href="#linux-系统目录结构-常用命令"></a> Linux 系统目录结构、常用命令</h2>
+<ul>
+<li>
+<p><strong>Linux 系统目录结构</strong></p>
+<ul>
+<li><code>bin</code>：所有用户使用的命令</li>
+<li><code>sbin</code>：root用户使用的命令</li>
+<li><code>boot</code>：Linux 启动引导配置文件</li>
+<li><code>dev</code>：存储的文件（包括硬盘等）</li>
+<li><code>etc</code>：系统服务应用配置文件</li>
+<li><code>home</code>：普通用户家目录</li>
+<li><code>lib</code>：函数的库文件</li>
+<li><code>lost+found</code>：无实际意义，表示有一个磁盘挂载到根下</li>
+<li><code>media/mnt</code>：挂载光盘等外来存储介质</li>
+<li><code>opt</code>：安装外围大型程序</li>
+<li><code>proc</code>：开机才有的配置文件（不开机时无该目录）</li>
+<li><code>root</code>：root用户的家目录</li>
+<li><code>selinux</code>：对程序进行控制，安全性比较高</li>
+<li><code>sys</code>：系统配置文件</li>
+<li><code>tmp</code>：临时文件</li>
+<li><code>usr</code>：外部程序安装位置</li>
+<li><code>var</code>：日志网站根目录</li>
+</ul>
+</li>
+<li>
+<p><strong>Linux 命令</strong></p>
+<ul>
+<li>
+<p><strong>Linux 命令简介</strong></p>
+<ul>
+<li>用与实现某一类功能的指令或程序</li>
+<li>命令的执行依赖于解释器程序（如：/bin/bash）</li>
+</ul>
+</li>
+<li>
+<p><strong>Linux 命令的分类</strong></p>
+<ul>
+<li>内部命令：属于 Shell解释器 的一部分</li>
+<li>外部命令：独立于 Shell解释器 之外的程序文件</li>
+</ul>
+</li>
+<li>
+<p><strong>Linux 命令的通用命令格式</strong></p>
+<ul>
+<li>
+<p><strong>命令字 [选项] [参数]</strong></p>
+</li>
+<li>
+<p>选项及参数含义：</p>
+<ul>
+<li>
+<p>选项：用于调节命令的具体功能</p>
+<ul>
+<li>以 <strong><code>-</code></strong> 引导短格式选项（单个字符），例如 <strong><code>-l</code></strong></li>
+<li>以 <strong><code>--</code></strong> 引导长格式选项（多个字符），例如 <strong><code>--color</code></strong></li>
+<li>多个短格式选项可以写在一起，只用一个 <strong><code>-</code></strong> 引导，例如 <strong><code>-al</code></strong></li>
+</ul>
+</li>
+<li>
+<p>参数： 命令操作的对象，如文件、目录名等</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>命令行编辑的几个辅助操作</strong></p>
+<ul>
+<li><strong><code>Tab键</code>：</strong> 自动补齐</li>
+<li><strong><code>反斜杠\</code>：</strong> 强制换行</li>
+<li><strong><code>ctrl+U</code>：</strong> 清空光标前的内容</li>
+<li><strong><code>ctrl+K</code>：</strong> 清空光标后的内容</li>
+<li><strong><code>ctrl+L</code>：</strong> 清屏</li>
+<li><strong><code>ctrl+C</code>：</strong> 取消本次命令编辑</li>
+</ul>
+</li>
+<li>
+<p><strong>获取命令帮助</strong></p>
+<ul>
+<li>内部命令help
+<ul>
+<li>查看 Bash 内部命令的帮助信息</li>
+</ul>
+</li>
+<li>命令的 “-h” 或 “–help” 选项
+<ul>
+<li>适用于大多数外部命令</li>
+</ul>
+</li>
+<li>使用<code>man</code>命令阅读手册页
+<ul>
+<li>使用 “↑”、“↓” 方向键滚动文本</li>
+<li>使用 “Page Up”、“Page Down” 翻页</li>
+<li>使用 Q键 退出阅读环境、按 “/”键 后查找内容</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>几个符号的含义</strong></p>
+<ul>
+<li><strong><code>.</code>：</strong> 代表当前所在路径</li>
+<li><strong><code>..</code>：</strong> 代表上一级目录</li>
+<li><strong><code>-</code>：</strong> 代表上一个工作的目录</li>
+<li><strong><code>~</code>：</strong> 代表家目录</li>
+<li><strong><code>./</code>：</strong> 代表执行</li>
+</ul>
+</li>
+<li>
+<p><strong>Linux 常用命令</strong></p>
+<ul>
+<li>
+<p><strong>查看类命令</strong></p>
+<ul>
+<li>
+<p><strong><code>uname命令</code></strong></p>
+<ul>
+<li>
+<p>查看系统相关信息</p>
+</li>
+<li>
+<p>常用命令选项</p>
+<ul>
+<li><strong><code>-a</code>：</strong> 显示主机名、内核版本、硬件平台等详细信息</li>
+<li><strong><code>-r</code>：</strong> 显示内核版本</li>
+</ul>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# uname -r</span><br><span class="line">2.6.32-220.el6.i686</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>hostname</code>命令</strong></p>
+<ul>
+<li>
+<p>查看主机的完整名称 包括主机名称、所在域的名称</p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# hostname</span><br><span class="line">rh-6</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ifconfig</code>命令</strong></p>
+<ul>
+<li>
+<p>查看ip地址</p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">   [root@rh-6 ~]# ifconfig</span><br><span class="line">   eth0      Link encap:Ethernet  HWaddr 00:0C:29:94:54:8B  </span><br><span class="line">           inet addr:192.168.206.131  Bcast:192.168.206.255  Mask:255.255.255.0</span><br><span class="line">           inet6 addr: fe80::20c:29ff:fe94:548b&#x2F;64 Scope:Link</span><br><span class="line">           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">           RX packets:5828 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">           TX packets:109 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">           collisions:0 txqueuelen:1000 </span><br><span class="line">           RX bytes:361941 (353.4 KiB)  TX bytes:13988 (13.6 KiB)</span><br><span class="line">           Interrupt:18 Base address:0x2024 </span><br><span class="line">           lo        Link encap:Local Loopback</span><br><span class="line">inet addr:127.0.0.1  Mask:255.0.0.0 inet6 addr: ::1&#x2F;128 Scope:Host UP LOOPBACK RUNNING  MTU:16436  Metric:1 RX packets:12 errors:0 dropped:0 overruns:0 frame:0 TX packets:12 errors:0 dropped:0 overruns:0 carrier:0 collisions:0 txqueuelen:0  RX bytes:720 (720.0 b)  TX bytes:720 (720.0 b)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>查看CPU信息</strong></p>
+<ul>
+<li>
+<p><code>/proc/cpuinfo</code></p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">  [root@rh-6 ~]# cat &#x2F;proc&#x2F;cpuinfo </span><br><span class="line">processor       : 0</span><br><span class="line">  vendor_id       : GenuineIntel</span><br><span class="line">cpu family      : 6</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>查看内存信息</strong></p>
+<ul>
+<li><code>/proc/meminfo</code></li>
+</ul>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">  [root@rh-6 ~]# cat &#x2F;proc&#x2F;meminfo</span><br><span class="line">MemTotal:        2071204 kB</span><br><span class="line">  MemFree:         1407868 kB</span><br><span class="line">Buffers:           24536 kB</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>history</code>命令</strong></p>
+<ul>
+<li>查看历史命令</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>关机及重启命令</strong></p>
+<ul>
+<li>
+<p>关机操作</p>
+<ul>
+<li>
+<p><code>shutdown</code></p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# shutdown -h now</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>poweroff</code></p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# poweroff</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>halt</code></p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# halt</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>重启操作</p>
+<ul>
+<li>
+<p><code>shutdown</code></p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# shutdown -r now</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>reboot</code></p>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# reboot</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>进程类命令</strong></p>
+<ul>
+<li><code>ps</code>命令</li>
+</ul>
+</li>
+<li>
+<p>列出系统中当前运行的那些进程</p>
+</li>
+<li>
+<p><strong>格式：<code>ps</code> [选项]</strong></p>
+</li>
+<li>
+<p>常用命令选项：</p>
+<ul>
+<li><strong><code>a</code>：</strong> 显示现行终端机下的所有程序，包括其他用户的程序
+<ul>
+<li><strong><code>u</code>：</strong> 以用户为第一列的格式来显示程序状况</li>
+<li><strong><code>x</code>：</strong> 显示所有程序，不以终端机来区分</li>
+<li><strong><code>aux</code>：</strong> 显示所有程序，包含其他使用者的程序</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>往往配合<code>|grep</code>使用(<code>|grep</code>相当于检索)</p>
+<ul>
+<li><strong><code>ps aux |grep root</code></strong></li>
+</ul>
+</li>
+<li>
+<p><code>kill</code>命令</p>
+<ul>
+<li>杀死进程</li>
+<li><strong>格式：kill [选项] [进程号(PID)]</strong>
+<ul>
+<li>常用命令选项：</li>
+<li><strong><code>-9</code>：</strong> 使 <strong>kill</strong> 的级别更高</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>文件及目录命令</strong></p>
+<ul>
+<li>
+<p><code>pwd</code>命令</p>
+<ul>
+<li>查看工作目录</li>
+<li><strong>格式：<code>pwd</code></strong></li>
+</ul>
+</li>
+<li>
+<p><code>cd</code>命令</p>
+<ul>
+<li>切换工作目录</li>
+<li><strong>格式：<code>cd</code> [目录位置]</strong></li>
+</ul>
+</li>
+<li>
+<p><code>ls</code>命令</p>
+<ul>
+<li>列表（List）显示目标内容</li>
+<li><strong>格式：<code>ls</code> [选项]… [目录或文件名]</strong></li>
+<li>常用命令选项：
+<ul>
+<li><strong><code>-l</code>：</strong> 以长格式显示</li>
+<li><strong><code>-a</code>：</strong> 显示所有子目录和文件的信息，包括隐藏文件</li>
+<li><strong><code>-A</code>：</strong> 类似于 <strong>-a</strong> ，但不显示 <strong>.</strong> 和 <strong>…</strong> 目录信息</li>
+<li><strong><code>-d</code>：</strong> 显示目录本身的属性</li>
+<li><strong><code>-h</code>：</strong> 以更易读的字节单位（K、M等）显示信息</li>
+<li><strong><code>-R</code>：</strong> 递归显示内容</li>
+<li><strong><code>--color</code>：</strong> 以长格式显示</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>du</code>命令</p>
+<ul>
+<li>统计目录及文件的空间占用情况（estimate file space usage）</li>
+<li><strong>格式：<code>du</code> [选项]… [目录或文件名]</strong></li>
+<li>常用命令选项：
+<ul>
+<li><strong><code>-a</code>：</strong> 统计时包括所有的文件，而不仅仅只统计目录</li>
+<li><strong><code>-h</code>：</strong> 以更易读的字节单位（K、M等）显示信息</li>
+<li><strong><code>-s</code>：</strong> 只统计每个参数所占用空间总的大小</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>df</code>命令</p>
+<ul>
+<li>显示文件系统的磁盘空间占用情况
+<ul>
+<li>若不指定文件，则显示所有的磁盘空间占用情况</li>
+<li>如指定文件，则显示文件所在磁盘空间占有情况</li>
+</ul>
+</li>
+<li><strong>格式：<code>df</code> [选项]… [目录或文件名]</strong></li>
+<li>常用命令选项：
+<ul>
+<li><strong><code>-h</code>：</strong> 以更易读的字节单位（K、M等）显示信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>mkdir</code>命令</p>
+<ul>
+<li>创建新的目录（Make Directory）</li>
+<li><strong>格式：<code>mkdir</code> [-p] [/路径/]目录名</strong></li>
+<li>选项：
+<ul>
+<li><strong><code>-p</code>：</strong> 递归创建</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>touch</code>命令</p>
+<ul>
+<li>新建空文件，或更新文件时间标记</li>
+<li><strong>格式：<code>touch</code> 文件名…</strong></li>
+</ul>
+</li>
+<li>
+<p><code>ln</code>命令</p>
+<ul>
+<li>为文件或目录简历链接（Link）</li>
+<li><strong>格式：<code>ln</code> [-s] 源文件或目录名 链接文件或目标目录</strong></li>
+<li>选项：
+<ul>
+<li><strong><code>-s</code>：</strong> 建立符号链接文件（省略此项则建立硬链接）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>cp</code>命令</p>
+<ul>
+<li>复制（Copy）文件或目录</li>
+<li><strong>格式：<code>cp</code> [选项]… 源文件或目录名… 目标文件或目录</strong></li>
+<li>常用命令选项：
+<ul>
+<li><strong><code>-r</code>：</strong> 递归复制整个目录树</li>
+<li><strong><code>-p</code>：</strong> 保持原文件的属性不变</li>
+<li><strong><code>-f</code>：</strong> 强制覆盖目标同名文件或目录</li>
+<li><strong><code>-i</code>：</strong> 需要覆盖文件或目录时进行提醒</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>rm</code>命令</p>
+<ul>
+<li>删除（Remove）文件或目录</li>
+<li><strong>格式：<code>rm</code> [选项]… 文件或目录</strong></li>
+<li>选项：
+<ul>
+<li><strong><code>-r</code>：</strong> 递归删除整个目录树</li>
+<li><strong><code>-f</code>：</strong> 强制文件或目录，不进行提醒</li>
+<li><strong><code>-i</code>：</strong> 删除文件或目录时提醒用户确认</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>mv</code>命令</p>
+<ul>
+<li>移动（Move）文件或目录
+<ul>
+<li>若目标位置与源文件位置相同，则相当于改名</li>
+</ul>
+</li>
+<li><strong>格式：<code>mv</code> [选项]… 源文件或目录… 目标文件或目录</strong></li>
+</ul>
+</li>
+<li>
+<p><code>find</code>命令</p>
+<ul>
+<li>用于查找文件或目录</li>
+<li><strong>格式：<code>find</code> [查找范围] [查找条件] [查找内容]</strong></li>
+<li>常用查找条件：
+<ul>
+<li><strong><code>-name</code>：</strong> 按文件名称 查找</li>
+<li><strong><code>-size</code>：</strong> 按文件大小 查找</li>
+<li><strong><code>-user</code>：</strong> 按文件属主 查找</li>
+<li><strong><code>-type</code>：</strong> 按文件类型 查找</li>
+<li><strong><code>-perm</code>：</strong> 按权限树 查找</li>
+</ul>
+</li>
+<li>示例
+<ul>
+<li><strong><code>find -name 111.txt</code></strong>：当前路径下搜索文件111.txt</li>
+<li><strong><code>find /root/桌面 -name 111.txt</code></strong>：<code>/root/桌面</code>目录下搜索文件111.txt</li>
+<li><strong><code>find /root/桌面 -user root</code></strong>:<code>/root/桌面</code>目录下搜索属主为<code>root</code>的文件</li>
+<li><strong><code>find /root/桌面 -nouser</code></strong>：<code>/root/桌面</code>目录下搜索作废用户的文件</li>
+<li><strong><code>find /root/桌面 -empty</code></strong>：<code>/root/桌面</code>目录下搜索空文件和空目录</li>
+<li><strong><code>find /root/桌面 -amin -10</code></strong>：<code>/root/桌面</code>目录下搜索最后 10分钟 访问的文件</li>
+<li><strong><code>find /root/桌面 -atime -10</code></strong>：<code>/root/桌面</code>目录下搜索最后 10天 访问的文件</li>
+<li><strong><code>find /root/桌面 -mmin -10</code></strong>：<code>/root/桌面</code>目录下搜索最后 10分钟 修改的文件</li>
+<li><strong><code>find /root/桌面 -mtime -10</code></strong>：<code>/root/桌面</code>目录下搜索最后 10天 修改的文件</li>
+<li><strong><code>find /root/桌面 -perm 777</code></strong>：<code>/root/桌面</code>目录下搜索权限数为777的文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>文件查看命令</p>
+<ul>
+<li><code>cat</code>命令
+<ul>
+<li>显示文件全部内容</li>
+<li>格式：<code>cat</code> [-n] 文件…
+<ul>
+<li>可以同时查看多个文件</li>
+</ul>
+</li>
+<li>常用命令选项：
+<ul>
+<li><strong><code>-n</code>：</strong> 给输出的所有行加上编号</li>
+</ul>
+</li>
+<li>常见应用：
+<ul>
+<li><code>cat a b ... &gt; c</code>
+<ul>
+<li>将 文件a 文件b 等文件 的内容导入 文件c 中</li>
+<li><strong>&gt;</strong> 并不仅限于和 <strong>cat</strong> 搭配，它还可以与 <strong>ls</strong> 等搭配，只要是把文本导入某文件，都可以用</li>
+</ul>
+</li>
+<li><code>cat a |grep text</code>
+<ul>
+<li>检索 文件a 里的 关键字text 相关文本</li>
+</ul>
+</li>
+<li><code>cat a |grep -v text</code>
+<ul>
+<li>显示去除 关键字text 相关文本后的 文件a</li>
+</ul>
+</li>
+<li><code>cat a |sort</code>
+<ul>
+<li>将 文件a 文本排序 再显示</li>
+<li>数字按照 123</li>
+<li>字母按照 abc</li>
+</ul>
+</li>
+<li><code>cat a |uniq</code>
+<ul>
+<li>将 文件a 文本去重 再显示</li>
+<li>只有两行完全一样才被视为重复</li>
+</ul>
+</li>
+<li><code>cat a |wc -l</code>
+<ul>
+<li>计算 文件a 的行数</li>
+</ul>
+</li>
+<li><code>cat a &gt;&gt; b</code>
+<ul>
+<li>文本重定向</li>
+<li>即将 文件b 变为 文件a 的复制</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>diff</code>命令
+<ul>
+<li><code>diff a b</code>
+<ul>
+<li>比较 文件a 和 文件b 的区别</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>split</code>命令
+<ul>
+<li><code>split -l [n] a</code>
+<ul>
+<li>将 文件a 以 n 行为单位进行分割</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>head</code>命令
+<ul>
+<li>显示文件开头几行</li>
+<li><strong>格式：<code>head</code> 文件</strong></li>
+</ul>
+</li>
+<li><code>tail</code>命令
+<ul>
+<li>显示文件末尾几行</li>
+<li><strong>格式：<code>tail</code> 文件</strong></li>
+</ul>
+</li>
+<li><code>tac</code>命令
+<ul>
+<li>反向显示文件全部内容</li>
+<li><strong>格式：<code>tac</code> 文件</strong></li>
+</ul>
+</li>
+<li><code>nl</code>命令
+<ul>
+<li>带行数显示文件全部内容</li>
+<li><strong>格式：<code>nl</code> 文件</strong></li>
+</ul>
+</li>
+<li><code>more</code>命令
+<ul>
+<li>按页显示文件全部内容
+<ul>
+<li><strong><code>space</code></strong> 下一页</li>
+<li><strong><code>b</code></strong> 上一页</li>
+<li><strong><code>q</code></strong> 退出</li>
+</ul>
+</li>
+<li><strong>格式：<code>more</code> 文件</strong></li>
+</ul>
+</li>
+<li><code>less</code>命令
+<ul>
+<li>类似于 <strong><code>more</code></strong> 但更加灵活，可以使用如 <strong>PageUp</strong>、<strong>PageDown</strong> 这种翻看操作</li>
+<li><strong>格式：<code>less</code> 文件</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>wc</code>命令</p>
+<ul>
+<li>
+<p>统计文件中行数、单词数量、字符数</p>
+</li>
+<li>
+<p><strong>格式：<code>wc</code> [选项] 文件</strong></p>
+</li>
+<li>
+<p>常用命令选项：</p>
+<ul>
+<li><strong><code>-l</code>：</strong> 统计行数</li>
+<li><strong><code>-w</code>：</strong> 统计单词数</li>
+<li><strong><code>-c</code>：</strong> 统计字符数</li>
+</ul>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@rh-6 ~]# wc install.log</span><br><span class="line">790  1593 34319 install.log</span><br></pre></td></tr></table></figure>
+<p>这表示 install.log 有 790 行，1593 个单词，34319 个字符</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>scp</code>命令</p>
+<ul>
+<li><strong><code>scp 本地目录/文件 root@ip地址:/远端目录</code></strong> 将文件从本地发送到远端</li>
+<li><strong><code>scp root@ip地址:/远端目录/文件 本地目录</code></strong> 将文件从远端接收到本地</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>压缩文件相关命令</strong></p>
+<ul>
+<li><code>gzip</code>命令
+<ul>
+<li>压缩或解压文件（gzip格式）</li>
+<li>压缩
+<ul>
+<li><strong>格式：<code>gzip</code> [-9] 文件名 压缩文件名</strong></li>
+<li>压缩文件名 为 文件名.gz</li>
+<li><strong><code>-9</code>：</strong> 高压缩比压缩</li>
+</ul>
+</li>
+<li>解压
+<ul>
+<li><strong>格式：<code>gzip</code> -d 压缩文件名</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>bzip2</code>命令
+<ul>
+<li>压缩或解压文件（bzip2格式）</li>
+<li>压缩
+<ul>
+<li><strong>格式：<code>bzip2</code> [-9] 文件名 压缩文件名</strong></li>
+<li>压缩文件名 为 文件名.bz2</li>
+<li><strong><code>-9</code>：</strong> 高压缩比压缩</li>
+</ul>
+</li>
+<li>解压
+<ul>
+<li><strong>格式：<code>bzip2</code> -d 压缩文件名</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>tar</code>
+<ul>
+<li>归档或释放文件（没有压缩功能）</li>
+<li><strong>格式：<code>tar</code> [选项] 归档文件名 源文件或目录</strong></li>
+<li>常用命令选项：
+<ul>
+<li><strong><code>-c</code>：</strong> 创建归档文件，拓展名为<code>.tar</code></li>
+<li><strong><code>-x</code>：</strong> 解开归档文件</li>
+<li><strong><code>-t</code>：</strong> 列表查看包内的文件（不释放解包）</li>
+<li><strong><code>-r</code>：</strong> 追加文件至归档结尾</li>
+<li><strong><code>-v</code>：</strong> 输出详细信息</li>
+<li><strong><code>-f</code>：</strong> 表示使用归档文件</li>
+<li><strong><code>-p</code>：</strong> 解包时保留原始文件及目录权限</li>
+<li><strong><code>-C</code>：</strong> 解包时指定释放的目标文件夹</li>
+<li><strong><code>-z</code>：</strong> 调用 gzip 程序进行解压或压缩</li>
+<li><strong><code>-j</code>：</strong> 调用 bzip2 程序进行解压或压缩</li>
+</ul>
+</li>
+<li>典型使用
+<ul>
+<li><code>tar -cvf 4.tar 1 2 3</code>
+<ul>
+<li>将 文件1 文件2 文件3 打包归档为 4.tar</li>
+</ul>
+</li>
+<li><code>tar -xvf 4.tar</code>
+<ul>
+<li>将 4.tar 解包</li>
+</ul>
+</li>
+<li><code>tar -xvf 4.tar</code>
+<ul>
+<li>查看 4.tar 内的文件</li>
+</ul>
+</li>
+<li><code>tar -cvzf 4.tar.gz 1 2 3</code>
+<ul>
+<li>创建归档压缩文件 4.tar.gz</li>
+</ul>
+</li>
+<li><code>tar -cvjf 4.tar.bz2 1 2 3</code>
+<ul>
+<li>创建归档压缩文件 4.tar.bz2</li>
+</ul>
+</li>
+<li><code>tar -xvzf 4.tar.gz -C /桌面/New</code>
+<ul>
+<li>解压释放归档文件 4.tar.gz 到 /桌面/New 里</li>
+</ul>
+</li>
+<li><code>tar -xvjf 4.tar.bz2 -C /桌面/New</code>
+<ul>
+<li>解压释放归档文件 4.tar.bz2 到 /桌面/New 里</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>安装、升级、卸载软件相关命令</strong></p>
+<ul>
+<li>安装、升级、卸载 RPM软件包</li>
+</ul>
+<ul>
+<li>
+<p><strong>格式：<code>rpm</code> [选项] RPM包文件</strong></p>
+</li>
+<li>
+<p>用法：</p>
+<ul>
+<li>不同选项适用于不同情况</li>
+<li><strong><code>-i</code>：</strong> 安装一个新的 RPM软件包</li>
+<li><strong><code>-U</code>：</strong> 升级某个 RPM软件，若原本未安装，则进行安装</li>
+<li><strong><code>-F</code>：</strong> 升级某个 RPM软件，若原本未安装，则放弃安装</li>
+</ul>
+</li>
+<li>
+<p>卸载<code>rpm</code>软件</p>
+<ul>
+<li><strong>格式：<code>rpm</code> -e 软件名</strong></li>
+</ul>
+</li>
+<li>
+<p><code>rpm</code> 辅助选项</p>
+<ul>
+<li>
+<p><strong><code>--force</code>：</strong> 强制安装所指定的 rpm 软件包</p>
+</li>
+<li>
+<p><strong><code>--nodeps</code>：</strong> 安装、升级或卸载软件时，忽略依赖关系</p>
+</li>
+<li>
+<p><strong><code>-h</code>：</strong> 以 “#” 号显示安装的进度</p>
+</li>
+<li>
+<p><strong><code>-v</code>：</strong> 显示安装过程中的详细信息</p>
+</li>
+<li>
+<p><code>-q</code>：</p>
+<p>查询</p>
+<ul>
+<li><strong><code>-qa</code></strong> 列出软件的全称（不接软件名则列出所有安装过的软件）</li>
+<li><strong><code>-qi</code></strong> 列出软件的详细信息（不可不接软件名）</li>
+<li><strong><code>-ql</code></strong> 列出软件的安装目录（不接软件名则列出所有软件的路径）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>示例</p>
+<ul>
+<li><strong><code>rpm -ivh Nessus-6.10.9-es6.x86_64.rpm</code></strong> 安装 Nessus</li>
+<li><strong><code>rpm -qa</code></strong> 查看所有安装了的软件包</li>
+<li><strong><code>rpm -qa |grep kernel</code></strong> 把 kernel 相关的包列出来</li>
+<li><strong><code>rpm -q Nessus</code></strong> 查看 Nessus 软件包全名（只列主包）</li>
+<li><strong><code>rpm -ql Nessus-6.10.9-es6.x86_64</code></strong> 查看 Nessus-6.10.9-es6.x86_64 在哪些目录下写入了文件</li>
+<li><strong><code>rpm -qlp Nessus-6.10.9-es6.x86_64</code></strong> 查看没有安装的 Nessus-6.10.9-es6.x86_64 将在哪些目录下写入文件</li>
+<li><strong><code>rpm -evh Nessus</code></strong> 卸载 Nessus</li>
+</ul>
+</li>
+<li>
+<p>使用 <code>yum</code> 从光盘安装软件</p>
+<ul>
+<li>
+<p>配置 <code>yum</code> 源为光盘</p>
+<ul>
+<li>
+<p><code>vi /etc/yum.repos.d/rhel-source.repo</code></p>
+</li>
+<li>
+<p>修改 <code>rhel-source.repo</code>内容</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[rhel-source]</span><br><span class="line">      name&#x3D;Red Hat Enterprise Linux $releasever - $basearch - Source</span><br><span class="line">baseurl&#x3D;file:&#x2F;&#x2F;&#x2F;media&#x2F;Server</span><br><span class="line">      enabled&#x3D;1</span><br><span class="line">      gpgcheck&#x3D;1</span><br><span class="line">      gpgkey&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-redhat-release</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>安装软件（以 火狐 为例）</p>
+<ul>
+<li>
+<p><code>yum -y install firefox</code></p>
+</li>
+<li>
+<pre class="highlight"><code class=""></code></pre>
+</li>
+</ul>
+<p>yum -y localinstall /media/RHEL_6.2 i386 Disc 1/Packages/firefox-3.6.24-3.el6_1.i686.rpm</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">      - 该命令为本地安装</span><br><span class="line">      - 该命令可以批量安装</span><br><span class="line">  </span><br><span class="line">- 卸载软件（以 火狐 为例）</span><br><span class="line">  </span><br><span class="line">    - &#96;yum -y remove firefox&#96;</span><br><span class="line"></span><br><span class="line">    - &#96;&#96;&#96;</span><br><span class="line">    yum -y groupremove Installed Groups</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将所有安装的程序全部删掉</li>
+</ul>
+</li>
+<li>
+<p>更新软件</p>
+<ul>
+<li>
+<p><code>yum update</code> 全部更新</p>
+</li>
+<li>
+<p><code>yum update firefox</code> 更新 火狐</p>
+</li>
+<li>
+<p><code>yum check-update</code> 检查可更新的包</p>
+</li>
+<li>
+<pre class="highlight"><code class=""></code></pre>
+</li>
+</ul>
+<p>yum makecache 更新源</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">             将更新源的包信息缓存到本地电脑</span><br><span class="line">        </span><br><span class="line">            - &#96;yum clean all&#96; 清除全部缓存</span><br><span class="line"></span><br><span class="line">        - 查询软件</span><br><span class="line"></span><br><span class="line">          - &#96;yum list&#96; 列举系统中已安装的包</span><br><span class="line">        - &#96;yum list |grep firefox&#96; 查看有没有 火狐 对应的包</span><br><span class="line">          - &#96;yum grouplist&#96; 以组的形式列举系统中已安装的包</span><br><span class="line">        - &#96;yum deplist firefox&#96; 查看 火狐 的依赖关系</span><br><span class="line">        </span><br><span class="line">        - **&#96;-y&#96;** 表示直接确认，不用询问</span><br><span class="line">        </span><br><span class="line">      - 编译安装</span><br><span class="line"></span><br><span class="line">        - 编译安装过程</span><br><span class="line">          - 下载源代码安装包文件</span><br><span class="line">          - 步骤1：tar 解包</span><br><span class="line">            - 解压并释放源代码包到指定的目录</span><br><span class="line">          - 步骤2：.&#x2F;configure 配置</span><br><span class="line">            - 设置安装目录、安装模块等选项</span><br><span class="line">          - 步骤3：make 编译</span><br><span class="line">            - 生成可执行的二进制文件</span><br><span class="line">          - 步骤4：make install 安装</span><br><span class="line">            - 复制二进制文件到系统，配置应用环境</span><br><span class="line">          - 测试及应用、维护软件 </span><br><span class="line"></span><br><span class="line">      - &#96;apt-get&#96;</span><br><span class="line"></span><br><span class="line">        - &#96;apt-get update&#96; 更新源</span><br><span class="line">        - &#96;apt-get upgrade&#96; 更新系统中所有的包</span><br><span class="line">        - &#96;apt-get install xxx&#96; 安装 xxx</span><br><span class="line">        - &#96;apt-get remove xxx&#96; 卸载 xxx</span><br><span class="line">        - &#96;apt-cache search xxx&#96; 查看 xxx 包含在哪个包里</span><br><span class="line">        - &#96;apt-get clean&#96; 清空缓存包</span><br><span class="line"></span><br><span class="line">      - &#96;dpkg&#96;</span><br><span class="line"></span><br><span class="line">        - &#96;dpkg -i xxx&#96; 安装 xxx</span><br><span class="line">        - &#96;dpkg -L xxx&#96; 查看 xxx 安装位置</span><br><span class="line">        - &#96;dpkg -c xxx.deb&#96;** 查看 xxx 将会安装到哪个位置</span><br><span class="line">        - &#96;dpkg -l xxx&#96;** 查看 xxx 版本</span><br><span class="line">        - &#96;dpkg -s xxx&#96;** 查看 xxx 详细信息</span><br><span class="line">        - &#96;dpkg -r xxx&#96; 删除 xxx 但保留配置文件</span><br><span class="line">        - &#96;dpkg -P xxx&#96; 删除 xxx 且删除配置文件</span><br><span class="line"></span><br><span class="line">      - **总结**</span><br><span class="line"></span><br><span class="line">      - 查看安装过的包</span><br><span class="line"></span><br><span class="line">        + &#96;rpm -qa&#96;</span><br><span class="line"></span><br><span class="line">      - 查询某个安装包</span><br><span class="line"></span><br><span class="line">        + &#96;rpm -q&#96;</span><br><span class="line"></span><br><span class="line">      - 查看安装包在哪个目录下写入了文件</span><br><span class="line"></span><br><span class="line">        + &#96;rpm -ql&#96;</span><br><span class="line"></span><br><span class="line">      - 查看未安装的安装包将在哪个目录写入哪些文件</span><br><span class="line"></span><br><span class="line">        + &#96;rpm -qlp&#96;</span><br><span class="line"></span><br><span class="line">        + &#96;&#96;dpkg -c&#96;</span><br><span class="line"></span><br><span class="line">      - 查看文件是哪个包写入的</span><br><span class="line"></span><br><span class="line">        + &#96;rpm -af&#96;</span><br><span class="line"></span><br><span class="line">      - 卸载软件</span><br><span class="line"></span><br><span class="line">        + &#96;rpm -evh&#96;</span><br><span class="line"></span><br><span class="line">      - 下载安装</span><br><span class="line"></span><br><span class="line">        + &#96;yum install&#96;</span><br><span class="line"></span><br><span class="line">        + &#96;apt-get install&#96;</span><br><span class="line"></span><br><span class="line">      - 更新包</span><br><span class="line"></span><br><span class="line">        + &#96;yum update&#96;</span><br><span class="line"></span><br><span class="line">      - 检查可更新的包</span><br><span class="line"></span><br><span class="line">        + &#96;yum check-update&#96;</span><br><span class="line"></span><br><span class="line">      - 卸载软件</span><br><span class="line"></span><br><span class="line">        + &#96;yum remove&#96;</span><br><span class="line"></span><br><span class="line">        + &#96;apt-get remove&#96;</span><br><span class="line"></span><br><span class="line">      - 更新源</span><br><span class="line"></span><br><span class="line">        + &#96;yum makecache&#96;</span><br><span class="line"></span><br><span class="line">        + &#96;apt-get update&#96; </span><br><span class="line"></span><br><span class="line">    - **用户、用户组组管理**</span><br><span class="line"></span><br><span class="line">      - &#96;useradd&#96;命令</span><br><span class="line">        - 添加用户</span><br><span class="line">        - **格式：&#96;useradd&#96; [选项]... 用户名**</span><br><span class="line">        - 常用命令选项</span><br><span class="line">          - **&#96;-u&#96;：** 指定 UID 标记好</span><br><span class="line">          - **&#96;-d&#96;：** 指定 宿主目录，缺省为 &#96;&#x2F;home&#x2F;用户名&#96;</span><br><span class="line">          - **&#96;-e&#96;：** 指定账号 失效时间</span><br><span class="line">          - **&#96;-g&#96;：** 指定用户的 基本组名（或 UID）</span><br><span class="line">          - **&#96;-G&#96;：** 指定用户的 附加组名（或 GID）</span><br><span class="line">          - **&#96;-M&#96;：** 不为用户建立并初始化 宿主目录</span><br><span class="line">          - **&#96;-s&#96;：** 指定用户的登录 Shell </span><br><span class="line">      - &#96;userdel&#96;命令</span><br><span class="line">        - 删除用户</span><br><span class="line">        - **格式：&#96;userdel&#96; [-r] 用户名**</span><br><span class="line">        - 常用命令选项</span><br><span class="line">          - **&#96;-r&#96;：** 连同用户宿主目录一并删除</span><br><span class="line">      - &#96;groupadd&#96;命令</span><br><span class="line">        - 添加用户组</span><br><span class="line">        - **格式：&#96;groupadd&#96; [选项]... 用户组名**</span><br><span class="line">        - 常用命令选项</span><br><span class="line">          - **&#96;-g&#96;：** 指定一个 GID</span><br><span class="line">      - &#96;groupdel&#96;命令</span><br><span class="line">        - 删除用户组</span><br><span class="line">        - **格式：&#96;groupdel&#96; 用户组名**</span><br><span class="line">      - 查看用户信息</span><br><span class="line">        - **路径：&#96;&#x2F;etc&#x2F;passwd&#96;**</span><br><span class="line">        - 使用方式：</span><br><span class="line">          - **&#96;cat &#x2F;etc&#x2F;passwd&#96;** </span><br><span class="line">        - 输出具体格式：</span><br><span class="line">          - **用户名：密码（用x占位）：UID：GID：用户全名：home目录：shell**</span><br><span class="line">        - 查看用户个数:</span><br><span class="line">          - **&#96;cat &#x2F;etc&#x2F;passwd |wc -l&#96;**</span><br><span class="line">        - 查看每一项用户信息:</span><br><span class="line">          - &#96;cat &#x2F;etc&#x2F;passwd |awk -F &#39;:&#39; &#39;&#123;print $序号,$序号...&#125;&#39;&#96;</span><br><span class="line">            - **用户名 —— 1**</span><br><span class="line">            - **密码（用x占位）—— 2**</span><br><span class="line">            - **UID —— 3**</span><br><span class="line">            - **GID —— 4**</span><br><span class="line">            - **用户全名 —— 5**</span><br><span class="line">            - **home目录 —— 6**</span><br><span class="line">            - **shell —— 7**</span><br><span class="line">            - **全部 —— (n)**</span><br><span class="line">      - 查看用户密码</span><br><span class="line">        - **路径：&#96;&#x2F;etc&#x2F;shadow&#96;** </span><br><span class="line">        - 使用方式：</span><br><span class="line">          - **&#96;cat &#x2F;etc&#x2F;shadow&#96;** </span><br><span class="line">        - 查看指定用户的密码：</span><br><span class="line">          - **&#96;cat &#x2F;etc&#x2F;shadow |grep username&#96;** </span><br><span class="line">      - 修改用户密码：</span><br><span class="line">        - **&#96;passwd username&#96;**</span><br><span class="line">      - 查看组信息</span><br><span class="line">        - **路径：&#96;&#x2F;etc&#x2F;group&#96;**</span><br><span class="line">        - 使用方式：</span><br><span class="line">          - **&#96;cat &#x2F;etc&#x2F;group&#96;** </span><br><span class="line">        - 查看组的最后修改时间</span><br><span class="line">          - **&#96;ls -al &#x2F;etc&#x2F;group&#96;**</span><br><span class="line"></span><br><span class="line">    - **权限相关指令**</span><br><span class="line"></span><br><span class="line">      - &#96;chmod&#96;指令</span><br><span class="line">        - **格式：&#96;chmod&#96; [选项] 文件或目录**</span><br><span class="line">        - 数字方式</span><br><span class="line">          - 选项为三个数字，每个数字都可以选择 0-7</span><br><span class="line">            - 三个数字 表示 三个组的权限</span><br><span class="line">              - 第一个数字 表示 所有者的权限</span><br><span class="line">              - 第二个数字 表示 所属分组的权限</span><br><span class="line">              - 第三个数字 表示 所有用户的权限</span><br><span class="line">            - &#96;0-7&#96; 表示 拥有的权限，其本质为 三位的二进制数</span><br><span class="line">              - &#96;0&#x2F;1&#96;（最低位）表示 是否可执行 为1表示有可执行权限，为0表示没有</span><br><span class="line">              - &#96;0&#x2F;2&#96;（第二位）表示 是否可写 为1表示有可写权限，为0表示没有</span><br><span class="line">              - &#96;0&#x2F;4&#96;（最高位）表示 是否可读 为1表示有可读权限，为0表示没有</span><br><span class="line">              - 选择好权限后，将该三位二进制数装变成10进制数，放在对应的组别即可</span><br><span class="line">          - 典型示例</span><br><span class="line">            - &#96;chmod 777 1.txt&#96;</span><br><span class="line">              - 表示赋予 1.txt 所有权限，即 所有者、所属分组用户、所有用户 都对 1.txt 又有可读，可写，可执行权限</span><br><span class="line">        - 增减方式</span><br><span class="line">          - 选项为 对应组+&#x2F;-权限</span><br><span class="line">            - 对应组</span><br><span class="line">              - **&#96;u&#96;** 代表 所有者</span><br><span class="line">              - **&#96;g&#96;** 代表 所属分组</span><br><span class="line">              - **&#96;o&#96;** 代表 所有用户</span><br><span class="line">            - 加减</span><br><span class="line">              - **&#96;+&#96;** 代表 增加权限</span><br><span class="line">              - **&#96;-&#96;** 代表 去除权限</span><br><span class="line">            - 权限</span><br><span class="line">              - **&#96;r&#96;** 代表 可读权限</span><br><span class="line">              - **&#96;w&#96;** 代表 可读权限</span><br><span class="line">              - **&#96;x&#96;** 代表 可执行权限</span><br><span class="line">          - 典型示例</span><br><span class="line">            - &#96;chmod u-w 1.txt&#96;</span><br><span class="line">              - 表示删去 1.txt 所有者 的 可写权限</span><br><span class="line">      - &#96;chown&#96;指令</span><br><span class="line">        - 更改文件的属主</span><br><span class="line">        - **格式：&#96;chown&#96; [-R] 属主名:属组名 文件或目录**</span><br><span class="line">        - 常用命令选项</span><br><span class="line">          - **&#96;-R&#96;：** 递归方式更改属主</span><br><span class="line">        - 典型示例</span><br><span class="line">          - &#96;chown -R root:root www&#96;</span><br><span class="line">          - &#96;chown -R apache www&#96;</span><br><span class="line">            - 只把 使用者 改为 Apache</span><br><span class="line"></span><br><span class="line">    - **计划任务相关命令**</span><br><span class="line"></span><br><span class="line">      - &#96;crontab&#96;命令</span><br><span class="line">        - **编辑计划任务：&#96;crontab -e&#96;**</span><br><span class="line"></span><br><span class="line">        - **删除计划任务：&#96;crontab -r&#96;**</span><br><span class="line"></span><br><span class="line">        - **查看计划任务：&#96;crontab -l&#96;**</span><br><span class="line"></span><br><span class="line">    - **&#96;vi&#96;相关命令**</span><br><span class="line"></span><br><span class="line">      - &#96;vi&#96; 是一个较大的 UNIX 命令，在启动的时候有自己的选项和参数</span><br><span class="line">      - 进入 &#96;vi&#96;</span><br><span class="line">        - **基本语法：&#96;vi&#96; [-option] [+[n]] [file]**</span><br><span class="line">        - 常用命令选项：</span><br><span class="line">          - **&#96;-r&#96;：** 用于恢复系统突然崩溃时正在编辑的文件</span><br><span class="line">          - **&#96;-R&#96;：** 用于以只读方式打开文件</span><br><span class="line">        - **&#96;+n&#96;** 用来指明进入 vi 后直接位于文件的第 n 行，如不指定 n，则位于最后一行</span><br><span class="line">      - 文本插入</span><br><span class="line">        - 在命令方式下使用某些命令会导致 vi 马上进入文本插入方式，这些命令如下表所示 </span><br><span class="line">        - &#96;a&#96;：在光标后附加文本</span><br><span class="line">        - &#96;A&#96;：在本行行末附加文本</span><br><span class="line">        - &#96;i&#96;：在光标前插入文本</span><br><span class="line">        - &#96;I&#96;：在本行开始插入文本</span><br><span class="line">        - &#96;o&#96;：在光标下插入新行</span><br><span class="line">        - &#96;O&#96;：在光标上插入新行</span><br><span class="line">        - 在这种方式下，用户的任何输入都被当做是文本的内容看待，并将其显示在屏幕上</span><br><span class="line">      - vi 基本用法</span><br><span class="line">        - &#96;.&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 重复上一指令</span><br><span class="line">        - &#96;u&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 取消上一指令</span><br><span class="line">        - &#96;D&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 从光标删除至行尾</span><br><span class="line">        - &#96;[n]dd&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 剪切光标后的 n 行</span><br><span class="line">          - 不输入 n ，相当于 n 取默认值 1</span><br><span class="line">        - &#96;p&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 粘贴</span><br><span class="line">        - &#96;[n]yy&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 复制 n 次</span><br><span class="line">          - 不输入 n ，相当于 n 取默认值 1</span><br><span class="line">        - &#96;r[x]&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 将光标出的字符替换为 x</span><br><span class="line">        - &#96;:[n1],[n2] co [nx]&#96;</span><br><span class="line">          - 行方式 </span><br><span class="line">          - 将 n1 到 n2 间的内容复制到 nx</span><br><span class="line">        - &#96;:[n1],[n2] m [nx]&#96;</span><br><span class="line">          - 行方式 </span><br><span class="line">          - 将 n1 到 n2 间的内容移动到 nx</span><br><span class="line">        - &#96;:set nu&#96;</span><br><span class="line">          - 行方式 </span><br><span class="line">          - 显示行号</span><br><span class="line">        - &#96;:w&#96;</span><br><span class="line">          - 行方式 </span><br><span class="line">          - 保存</span><br><span class="line">        - &#96;:q&#96;</span><br><span class="line">          - 行方式 </span><br><span class="line">          - 退出</span><br><span class="line">        - &#96;:x&#96;</span><br><span class="line">          - 行方式 </span><br><span class="line">          - 保存并退出</span><br><span class="line">          - 相当于 **:wq**</span><br><span class="line">        - &#96;ZZ&#96;</span><br><span class="line">          - 命令方式 </span><br><span class="line">          - 同 **:x**</span><br><span class="line">        - 如果由于读写权限或是更新方面的问题，导致 vi 拒绝执行保存文件或退出 vi 的命令，那么可以在命令后加一个 **!** 表示强制执行。</span><br><span class="line"></span><br><span class="line">## Linux 系统网络配置</span><br><span class="line"></span><br><span class="line">- 查看主机名称——hostname</span><br><span class="line"></span><br><span class="line">  - 查看或设置当前主机名</span><br><span class="line">    - **&#96;hostname&#96;**  </span><br><span class="line"></span><br><span class="line">- 查看网络接口信息——ifconfig</span><br><span class="line"></span><br><span class="line">  - 查看所有活动网络接口信息</span><br><span class="line">    - **&#96;ifconfig&#96;**</span><br><span class="line">  - 查看指定网络接口信息</span><br><span class="line">    - **&#96;ifconfig 网络接口名&#96;** </span><br><span class="line">    - 名称类型</span><br><span class="line">    - **&#96;eth0&#96;**：以太网</span><br><span class="line">    - **&#96;lo&#96;**（虚拟）：回环设备</span><br><span class="line">    -  **&#96;ppp0&#96;**：使用 PPP 协议的串口设备（通常指调制解调器）</span><br><span class="line">    - **&#96;tr0&#96;**：令牌环（Token Ring）</span><br><span class="line">    - **&#96;fddi0&#96;**：光纤 </span><br><span class="line"></span><br><span class="line">- 查看路由器条目——netstat</span><br><span class="line"></span><br><span class="line">  - 查看系统的网络连接状态、路由表、接口统计等信息</span><br><span class="line"></span><br><span class="line">    - **&#96;netstat [选项]&#96;**</span><br><span class="line"></span><br><span class="line">  - 常用选项：</span><br><span class="line"></span><br><span class="line">    - **&#96;-a&#96;：** 显示所有活动链接</span><br><span class="line">    - **&#96;-n&#96;：** 以数字形式显示</span><br><span class="line">    - **&#96;-p&#96;：** 显示进程信息</span><br><span class="line">    - **&#96;-t&#96;：** 查看 TCP 协议相关信息</span><br><span class="line">    - **&#96;-u&#96;：** 查看 UDP 协议相关信息</span><br><span class="line">    - **&#96;-r&#96;：** 显示路由表信息</span><br><span class="line">    - **&#96;| grep&#96; :n** 查看端口 n</span><br><span class="line"></span><br><span class="line">  - 示例：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>[root@rh-6 ~]# netstat -anpt | grep :22<br />
+tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      1678/sshd<br />
+tcp        0      0 :::22                       ::😗                        LISTEN      1678/sshd</p>
+<pre class="highlight"><code class="">
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>查看路由器条目——<code>route</code></p>
+<ul>
+<li>查看或设置主机中路由表信息
+<ul>
+<li><strong><code>route -n</code></strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>设置路由记录——<code>route</code></p>
+<ul>
+<li>删除路由表中的默认网关记录
+<ul>
+<li><strong>格式：<code>route</code> del default gw IP地址</strong></li>
+</ul>
+</li>
+<li>向路由表中添加默认网关记录
+<ul>
+<li><strong>格式：<code>route</code> add default gw IP地址</strong></li>
+</ul>
+</li>
+<li>删除到指定网段的路由记录
+<ul>
+<li><strong>格式：<code>route</code> del -net 网段地址</strong></li>
+</ul>
+</li>
+<li>添加到指定网段的路由记录
+<ul>
+<li><strong>格式：<code>route</code> add -net 网段地址/24 gw IP地址</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>网络接口配置文件</p>
+<ul>
+<li>
+<p><code>/etc/sysconfig/network-scripts/</code></p>
+<p>目录下的</p>
+<ul>
+<li><strong><code>ifcfg-eth0</code>：</strong> 第一块以太网卡的配置</li>
+<li><strong><code>ifcfg-eth1</code>：</strong> 第二块以太网卡的配置 <strong>等等</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>启用、禁用网络接口配置</p>
+<ul>
+<li>重启 <code>network</code> 网络服务
+<ul>
+<li><strong><code>service network restart</code></strong></li>
+</ul>
+</li>
+<li>禁用、启用 网络接口
+<ul>
+<li><strong><code>ifdown eth0</code></strong> 禁用</li>
+<li><strong><code>ifup eth0</code></strong> 启用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>域名解析配置文件</p>
+<ul>
+<li>
+<p><code>/etc/resolv.conf</code></p>
+<p>文件</p>
+<ul>
+<li><strong>保存本机需要使用的 DNS服务器 的 IP地址</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="三个关键文件或目录"><a class="markdownIt-Anchor" href="#三个关键文件或目录"></a> 三个关键文件或目录</h2>
+<ul>
+<li><code>/etc/httpd/conf/httpd.conf</code>
+<ul>
+<li>httpd 的主配置文件</li>
+</ul>
+</li>
+<li><code>/etc/httpd/</code>
+<ul>
+<li>配置文件的目录</li>
+</ul>
+</li>
+<li><code>/var/www/</code>
+<ul>
+<li>默认存放网页的目录</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">C1everF0x</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://c1everf0x/2021/01/05/Linux%E5%9F%BA%E7%A1%80/">http://c1everf0x/2021/01/05/Linux%E5%9F%BA%E7%A1%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://C1everF0x" target="_blank">C1everF0x's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/C1everF0x/images/raw/master/img/19.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/12/25/2020%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"><img class="next-cover" src="https://gitee.com/C1everF0x/images/raw/master/img/6.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">2020年终总结</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="http://q1.qlogo.cn/g?b=qq&amp;nk=1160118161&amp;s=640" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">C1everF0x</div><div class="author-info__description">记录成长经历</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/C1everF0x"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/C1everF0x" target="_blank" title="Github"><i class="fab fa-github-alt"></i></a><a class="social-icon" href="mailto:Oui0jr@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#linux-%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text"> Linux 基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.</span> <span class="toc-text"> Linux 系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text"> Linux 系统目录结构、常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E5%85%B3%E9%94%AE%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95"><span class="toc-number">1.3.</span> <span class="toc-text"> 三个关键文件或目录</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/01/05/Linux%E5%9F%BA%E7%A1%80/" title="Linux基础"><img src="https://gitee.com/C1everF0x/images/raw/master/img/19.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux基础"/></a><div class="content"><a class="title" href="/2021/01/05/Linux%E5%9F%BA%E7%A1%80/" title="Linux基础">Linux基础</a><time datetime="2021-01-05T12:49:37.000Z" title="发表于 2021-01-05 20:49:37">2021-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/25/2020%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" title="2020年终总结"><img src="https://gitee.com/C1everF0x/images/raw/master/img/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2020年终总结"/></a><div class="content"><a class="title" href="/2020/12/25/2020%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" title="2020年终总结">2020年终总结</a><time datetime="2020-12-25T05:38:52.000Z" title="发表于 2020-12-25 13:38:52">2020-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%8A%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E3%80%8B%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="《恶意代码分析实战》——学习笔记"><img src="https://gitee.com/C1everF0x/images/raw/master/img/13.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《恶意代码分析实战》——学习笔记"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%8A%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E3%80%8B%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="《恶意代码分析实战》——学习笔记">《恶意代码分析实战》——学习笔记</a><time datetime="2020-12-15T15:11:39.000Z" title="发表于 2020-12-15 23:11:39">2020-12-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%8A%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E3%80%8B%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" title="《恶意代码分析实战》——实验记录"><img src="https://gitee.com/C1everF0x/images/raw/master/img/10.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《恶意代码分析实战》——实验记录"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%8A%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E3%80%8B%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" title="《恶意代码分析实战》——实验记录">《恶意代码分析实战》——实验记录</a><time datetime="2020-12-15T15:10:49.000Z" title="发表于 2020-12-15 23:10:49">2020-12-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/12/%E3%80%8ALove-Choice%E6%8B%A3%E7%88%B1%E3%80%8B%E2%80%94%E2%80%94%E8%B4%B4%E8%BF%91%E7%94%9F%E6%B4%BB%E7%9A%84%E6%81%8B%E7%88%B1%E6%95%85%E4%BA%8B/" title="《Love Choice拣爱》——贴近生活的恋爱故事"><img src="https://gitee.com/C1everF0x/images/raw/master/img/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《Love Choice拣爱》——贴近生活的恋爱故事"/></a><div class="content"><a class="title" href="/2020/12/12/%E3%80%8ALove-Choice%E6%8B%A3%E7%88%B1%E3%80%8B%E2%80%94%E2%80%94%E8%B4%B4%E8%BF%91%E7%94%9F%E6%B4%BB%E7%9A%84%E6%81%8B%E7%88%B1%E6%95%85%E4%BA%8B/" title="《Love Choice拣爱》——贴近生活的恋爱故事">《Love Choice拣爱》——贴近生活的恋爱故事</a><time datetime="2020-12-12T12:09:44.000Z" title="发表于 2020-12-12 20:09:44">2020-12-12</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By C1everF0x</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">hhh, this is a CaiDan!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div></body></html>
