@@ -1,0 +1,335 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>汇编语言学习笔记 | C1everF0x's Blog</title><meta name="keywords" content="汇编语言"><meta name="author" content="C1everF0x"><meta name="copyright" content="C1everF0x"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="写在前面 转型二进制选手，寒假好好重新学一学汇编，打好基础，不然老是这看不懂那看不懂实在是劝退  [TOC]  0X00 前置基础知识  安装汇编工具dosbox 和 二进制大佬常用编辑器vim ，简单使用  关于doxbox：本质是一个模拟32位操作系统的模拟器  简单的编译、链接了一个文件  mount c: l:asm	# 先挂载文件夹到虚拟目录c: # 切换到对应虚拟盘符masm t1;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言学习笔记">
+<meta property="og:url" content="http://c1everf0x/2021/01/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="C1everF0x&#39;s Blog">
+<meta property="og:description" content="写在前面 转型二进制选手，寒假好好重新学一学汇编，打好基础，不然老是这看不懂那看不懂实在是劝退  [TOC]  0X00 前置基础知识  安装汇编工具dosbox 和 二进制大佬常用编辑器vim ，简单使用  关于doxbox：本质是一个模拟32位操作系统的模拟器  简单的编译、链接了一个文件  mount c: l:asm	# 先挂载文件夹到虚拟目录c: # 切换到对应虚拟盘符masm t1;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/C1everF0x/images/raw/master/img/4.jpg">
+<meta property="article:published_time" content="2021-01-18T06:25:45.000Z">
+<meta property="article:modified_time" content="2021-01-18T08:47:44.858Z">
+<meta property="article:author" content="C1everF0x">
+<meta property="article:tag" content="汇编语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/C1everF0x/images/raw/master/img/4.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://c1everf0x/2021/01/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-18 16:47:44'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="wizard-scene"><div class="wizard-objects"><div class="wizard-square"></div><div class="wizard-circle"></div><div class="wizard-triangle"></div></div><div class="wizard"><div class="wizard-body"></div><div class="wizard-right-arm"><div class="wizard-right-hand"></div></div><div class="wizard-left-arm"><div class="wizard-left-hand"></div></div><div class="wizard-head"><div class="wizard-beard"></div><div class="wizard-face"><div class="wizard-adds"></div></div><div class="wizard-hat"><div class="wizard-hat-of-the-hat"></div><div class="wizard-four-point-star --first"></div><div class="wizard-four-point-star --second"></div><div class="wizard-four-point-star --third"></div></div></div></div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="http://q1.qlogo.cn/g?b=qq&amp;nk=1160118161&amp;s=640" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/C1everF0x/images/raw/master/img/4.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">C1everF0x's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 我的网抑云</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">汇编语言学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-18T06:25:45.000Z" title="发表于 2021-01-18 14:25:45">2021-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-18T08:47:44.858Z" title="更新于 2021-01-18 16:47:44">2021-01-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>写在前面</p>
+<p>转型二进制选手，寒假好好重新学一学汇编，打好基础，不然老是这看不懂那看不懂实在是劝退</p>
+</blockquote>
+<p>[TOC]</p>
+<h1 id="0x00-前置基础知识"><a class="markdownIt-Anchor" href="#0x00-前置基础知识"></a> 0X00 前置基础知识</h1>
+<blockquote>
+<p>安装汇编工具<code>dosbox</code> 和 二进制大佬常用编辑器<code>vim</code> ，简单使用</p>
+<blockquote>
+<p>关于<code>doxbox</code>：本质是一个模拟32位操作系统的模拟器</p>
+</blockquote>
+<p>简单的编译、链接了一个文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mount c: l:asm	# 先挂载文件夹到虚拟目录</span><br><span class="line">c: # 切换到对应虚拟盘符</span><br><span class="line"></span><br><span class="line">masm t1;	# 编译 t1.asm</span><br><span class="line">link t1;	# 链接 t1.asm</span><br><span class="line"></span><br><span class="line">t1.asm:</span><br><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">		mov bx,0B800H</span><br><span class="line">		mov es,bx</span><br><span class="line">		mov bx,160*10 + 40*2</span><br><span class="line">		mov word ptr es:[bx],5535H</span><br><span class="line">        mov ax,4C00H</span><br><span class="line">		int 21H</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>CPU（中央处理器）是将机器指令（一串二进制数字）转换为高低电平来驱动计算机运行的一个硬件</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">74				03								JZ  0105</span><br><span class="line">0111 0100		0000 0011</span><br><span class="line"></span><br><span class="line">E9				97				00				JMP	019C</span><br><span class="line">1110 1001		1001 0111		0000 0000</span><br><span class="line"></span><br><span class="line">B8				05				00				MOV AX,0005</span><br><span class="line">1011 1000		0000 0101		0000 0000</span><br><span class="line"></span><br><span class="line">左边的机器指令和右边的汇编指令一一对应</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>什么是机器指令？</strong></p>
+<p>0101010 ，形如此的二进制代码</p>
+</li>
+<li>
+<p><strong>机器指令由谁执行？</strong></p>
+<p>CPU ，CPU 将其翻译成高低电平来驱动计算机运行</p>
+</li>
+<li>
+<p><strong>机器指令和汇编指令有什么关系？</strong></p>
+<p>通过编译器，将汇编指令翻译成机器指令</p>
+</li>
+<li>
+<p><strong>什么是编译器？</strong></p>
+<p>通俗讲就是“翻译”软件，用来将高级一点的语言翻译成低级一点的语言，比如从汇编指令翻译成机器指令</p>
+<blockquote>
+<p>编译器在程序可运行前有几个步骤要做：<br />
+读取你给它的源代码中的独立字符。<br />
+将字符分类为字，数字，符号和操作符。<br />
+获取已排序完的字符，并通过将它们与模式匹配相匹配和生成操作树来确定它们尝试进行的操作。<br />
+迭代上一步中生成操作树中的每一个操作，并生成等效的二进制文件。<br />
+当编译器立刻从一个操作树转化到二进制文件时，它实际生成了汇编代码，汇编代码随后被汇编/编译成二进制文件。汇编像是更高级的，人类可读的二进制文件。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>什么是伪指令？</strong></p>
+<p>告诉编译器，每个地方该如何进行“翻译”</p>
+</li>
+<li>
+<p><strong>机器指令（汇编指令）存放在哪里？</strong></p>
+<p>CPU 中存放了一部分指令和数据，其他绝大多数指令和数据都是存放在内存中，而其中又绝大部分存放在内存条中，<strong>指令和数据在内存中是没有任何区别的</strong></p>
+</li>
+<li>
+<p><strong>机器指令（汇编指令）是以什么形式存放在内存中的？</strong></p>
+<p>二进制数据，010101010，写成十六进制是方便阅读</p>
+</li>
+<li>
+<p><strong>内存（存储单元）的编号怎么算？</strong></p>
+<p><code>0123456789 ABCDEF</code></p>
+</li>
+<li>
+<p><strong>内存的计量单位？</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">等价</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1 byte = 8 bit</td>
+<td style="text-align:center">B = bit</td>
+</tr>
+<tr>
+<td style="text-align:center">1 KB = 1024 byte</td>
+<td style="text-align:center">K = kilo</td>
+</tr>
+<tr>
+<td style="text-align:center">1 MB = 1024 KB</td>
+<td style="text-align:center">M = million</td>
+</tr>
+<tr>
+<td style="text-align:center">1 GB = 1024 MB</td>
+<td style="text-align:center">G = giga</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>内存编号为什么是从 0 开始的？</strong></p>
+<p>CPU 和内存条之间联系需要通过电路（导线），其中有三根线分别是地址线、数据线和控制线</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内存编号信息</th>
+<th style="text-align:center">地址线（内存地址）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>数据信息</strong></td>
+<td style="text-align:center"><strong>数据线</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>读写信息</strong></td>
+<td style="text-align:center"><strong>控制线</strong></td>
+</tr>
+</tbody>
+</table>
+<p>由于物理上的限制，电路只能表示 0 或 1</p>
+</li>
+<li>
+<p><strong>什么叫寻址能力？</strong></p>
+<p>寻址能力是指计算机（CPU）寻找内存大小的能力，由地址线决定，地址线的数量决定了能传多少个 0 和 1，多少个 0 和 1 则对应着内存编号信息（内存地址）</p>
+</li>
+<li>
+<p><strong>数据线</strong></p>
+<p>决定了 CPU 的和其他部件进行数据传输时一次性能够传输多少数据的能力，比如有 8 根数据线，则一次性可以传输 8 位 bit 也就是一个字节的数据，16 根数据线就是一次传输两个字节的数据，可以理解为一根数据线能传输 1 bit 数据</p>
+</li>
+<li>
+<p><strong>控制线</strong></p>
+<p>决定了 CPU 对其他部件进行控制的能力</p>
+</li>
+<li>
+<p><strong>CPU 和计算机各个部件之间的关系？</strong></p>
+<p>CPU 将内存条、显存、ROM、RAM内存都看成内存空间，给内存空间分段分类分发编号（虚拟内存地址）</p>
+</li>
+<li>
+<p><strong>什么是 RAM 内存？</strong></p>
+<p>全称<code>Random-Access Memory(随机存取存储)</code>，叫主存、内存也叫运行内存，允许读取和写入，断电后内存中指令和数据丢失</p>
+</li>
+<li>
+<p><strong>什么是 ROM 内存？</strong></p>
+<p>全称<code>Read Only Memory(只读存储)</code>，也就是硬盘，只允许读取，断电后内存中指令和数据还存在，一般用于启动计算机上</p>
+</li>
+</ul>
+<h1 id="0x01-寄存器与寄存器内存访问"><a class="markdownIt-Anchor" href="#0x01-寄存器与寄存器内存访问"></a> 0X01 寄存器与寄存器内存访问</h1>
+<h2 id="寄存器"><a class="markdownIt-Anchor" href="#寄存器"></a> 寄存器</h2>
+<h2 id="寄存器内存的访问"><a class="markdownIt-Anchor" href="#寄存器内存的访问"></a> 寄存器（内存的访问）</h2>
+<h1 id="0x02-编程与访问内存空间"><a class="markdownIt-Anchor" href="#0x02-编程与访问内存空间"></a> 0X02 编程与访问内存空间</h1>
+<h2 id="第一个程序"><a class="markdownIt-Anchor" href="#第一个程序"></a> 第一个程序</h2>
+<h2 id="bx和loop指令"><a class="markdownIt-Anchor" href="#bx和loop指令"></a> [BX]和loop指令</h2>
+<h2 id="包含多个程序段"><a class="markdownIt-Anchor" href="#包含多个程序段"></a> 包含多个程序段</h2>
+<h2 id="更灵活的定位内存地址的方法"><a class="markdownIt-Anchor" href="#更灵活的定位内存地址的方法"></a> 更灵活的定位内存地址的方法</h2>
+<h2 id="数据处理的两个基本问题"><a class="markdownIt-Anchor" href="#数据处理的两个基本问题"></a> 数据处理的两个基本问题</h2>
+<h2 id="转移指令的原理"><a class="markdownIt-Anchor" href="#转移指令的原理"></a> 转移指令的原理</h2>
+<h2 id="call-和-ret-指令"><a class="markdownIt-Anchor" href="#call-和-ret-指令"></a> call 和 ret 指令</h2>
+<h1 id="0x03-承上启下"><a class="markdownIt-Anchor" href="#0x03-承上启下"></a> 0X03 承上启下</h1>
+<h2 id="标志位寄存器"><a class="markdownIt-Anchor" href="#标志位寄存器"></a> 标志位寄存器</h2>
+<h2 id="内中断"><a class="markdownIt-Anchor" href="#内中断"></a> 内中断</h2>
+<h2 id="int-指令"><a class="markdownIt-Anchor" href="#int-指令"></a> int 指令</h2>
+<h1 id="0x04-通过端口改变内存空间中的内容"><a class="markdownIt-Anchor" href="#0x04-通过端口改变内存空间中的内容"></a> 0X04 通过端口改变内存空间中的内容</h1>
+<h2 id="端口"><a class="markdownIt-Anchor" href="#端口"></a> 端口</h2>
+<h2 id="外中断"><a class="markdownIt-Anchor" href="#外中断"></a> 外中断</h2>
+<h2 id="直接定址表"><a class="markdownIt-Anchor" href="#直接定址表"></a> 直接定址表</h2>
+<h2 id="使用bios进行键盘输入和磁盘读写"><a class="markdownIt-Anchor" href="#使用bios进行键盘输入和磁盘读写"></a> 使用BIOS进行键盘输入和磁盘读写</h2>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">C1everF0x</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://c1everf0x/2021/01/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">http://c1everf0x/2021/01/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://C1everF0x" target="_blank">C1everF0x's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/C1everF0x/images/raw/master/img/4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/01/21/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-%E4%BA%8C/"><img class="prev-cover" src="https://gitee.com/C1everF0x/images/raw/master/img/11.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">每日一题-二</div></div></a></div><div class="next-post pull-right"><a href="/2021/01/13/zip%E5%8E%8B%E7%BC%A9%E5%8C%85%E2%80%94%E2%80%94%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3%E7%AF%87/"><img class="next-cover" src="https://gitee.com/C1everF0x/images/raw/master/img/4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">zip压缩包——加密破解篇</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="http://q1.qlogo.cn/g?b=qq&amp;nk=1160118161&amp;s=640" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">C1everF0x</div><div class="author-info__description">记录成长经历</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/C1everF0x"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/C1everF0x" target="_blank" title="Github"><i class="fab fa-github-alt"></i></a><a class="social-icon" href="mailto:Oui0jr@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E5%89%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text"> 0X00 前置基础知识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%8E%E5%AF%84%E5%AD%98%E5%99%A8%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE"><span class="toc-number">2.</span> <span class="toc-text"> 0X01 寄存器与寄存器内存访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">2.1.</span> <span class="toc-text"> 寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E5%86%85%E5%AD%98%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-number">2.2.</span> <span class="toc-text"> 寄存器（内存的访问）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E7%BC%96%E7%A8%8B%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text"> 0X02 编程与访问内存空间</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F"><span class="toc-number">3.1.</span> <span class="toc-text"> 第一个程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bx%E5%92%8Cloop%E6%8C%87%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text"> [BX]和loop指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85%E5%90%AB%E5%A4%9A%E4%B8%AA%E7%A8%8B%E5%BA%8F%E6%AE%B5"><span class="toc-number">3.3.</span> <span class="toc-text"> 包含多个程序段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E7%81%B5%E6%B4%BB%E7%9A%84%E5%AE%9A%E4%BD%8D%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.4.</span> <span class="toc-text"> 更灵活的定位内存地址的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="toc-number">3.5.</span> <span class="toc-text"> 数据处理的两个基本问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">3.6.</span> <span class="toc-text"> 转移指令的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call-%E5%92%8C-ret-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.7.</span> <span class="toc-text"> call 和 ret 指令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-%E6%89%BF%E4%B8%8A%E5%90%AF%E4%B8%8B"><span class="toc-number">4.</span> <span class="toc-text"> 0X03 承上启下</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%BF%97%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">4.1.</span> <span class="toc-text"> 标志位寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E4%B8%AD%E6%96%AD"><span class="toc-number">4.2.</span> <span class="toc-text"> 内中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#int-%E6%8C%87%E4%BB%A4"><span class="toc-number">4.3.</span> <span class="toc-text"> int 指令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-%E9%80%9A%E8%BF%87%E7%AB%AF%E5%8F%A3%E6%94%B9%E5%8F%98%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-number">5.</span> <span class="toc-text"> 0X04 通过端口改变内存空间中的内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3"><span class="toc-number">5.1.</span> <span class="toc-text"> 端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E4%B8%AD%E6%96%AD"><span class="toc-number">5.2.</span> <span class="toc-text"> 外中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%AE%9A%E5%9D%80%E8%A1%A8"><span class="toc-number">5.3.</span> <span class="toc-text"> 直接定址表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8bios%E8%BF%9B%E8%A1%8C%E9%94%AE%E7%9B%98%E8%BE%93%E5%85%A5%E5%92%8C%E7%A3%81%E7%9B%98%E8%AF%BB%E5%86%99"><span class="toc-number">5.4.</span> <span class="toc-text"> 使用BIOS进行键盘输入和磁盘读写</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/01/21/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-%E4%BA%8C/" title="每日一题-二"><img src="https://gitee.com/C1everF0x/images/raw/master/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="每日一题-二"/></a><div class="content"><a class="title" href="/2021/01/21/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-%E4%BA%8C/" title="每日一题-二">每日一题-二</a><time datetime="2021-01-21T06:35:13.000Z" title="发表于 2021-01-21 14:35:13">2021-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="汇编语言学习笔记"><img src="https://gitee.com/C1everF0x/images/raw/master/img/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="汇编语言学习笔记"/></a><div class="content"><a class="title" href="/2021/01/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="汇编语言学习笔记">汇编语言学习笔记</a><time datetime="2021-01-18T06:25:45.000Z" title="发表于 2021-01-18 14:25:45">2021-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/13/zip%E5%8E%8B%E7%BC%A9%E5%8C%85%E2%80%94%E2%80%94%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3%E7%AF%87/" title="zip压缩包——加密破解篇"><img src="https://gitee.com/C1everF0x/images/raw/master/img/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="zip压缩包——加密破解篇"/></a><div class="content"><a class="title" href="/2021/01/13/zip%E5%8E%8B%E7%BC%A9%E5%8C%85%E2%80%94%E2%80%94%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3%E7%AF%87/" title="zip压缩包——加密破解篇">zip压缩包——加密破解篇</a><time datetime="2021-01-13T05:42:35.000Z" title="发表于 2021-01-13 13:42:35">2021-01-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/05/Linux%E5%9F%BA%E7%A1%80/" title="Linux基础"><img src="https://gitee.com/C1everF0x/images/raw/master/img/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux基础"/></a><div class="content"><a class="title" href="/2021/01/05/Linux%E5%9F%BA%E7%A1%80/" title="Linux基础">Linux基础</a><time datetime="2021-01-05T12:49:37.000Z" title="发表于 2021-01-05 20:49:37">2021-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/25/2020%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" title="2020年终总结"><img src="https://gitee.com/C1everF0x/images/raw/master/img/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2020年终总结"/></a><div class="content"><a class="title" href="/2020/12/25/2020%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" title="2020年终总结">2020年终总结</a><time datetime="2020-12-25T05:38:52.000Z" title="发表于 2020-12-25 13:38:52">2020-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By C1everF0x</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">hhh, this is a CaiDan!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div></body></html>
