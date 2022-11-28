@@ -1398,7 +1398,7 @@ input::placeholder {
   z-index: -999;
   width: 100%;
   height: 100%;
-  background: https://aimerl0-1303178350.cos.ap-guangzhou.myqcloud.com/img/%E7%B2%89%E8%89%B2%E7%8C%AB%E7%8C%AB.jpg;
+  background: url(https://aimerl0-1303178350.cos.ap-guangzhou.myqcloud.com/img/%E7%B2%89%E8%89%B2%E7%8C%AB%E7%8C%AB.jpg);
   background-attachment: local;
   background-position: center;
   background-size: cover;
